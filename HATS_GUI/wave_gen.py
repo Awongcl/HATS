@@ -19,7 +19,6 @@ def generate(shape = 'sine',freq = 1000):
       wave.set_shape('sine')
 
     wave.set_freq(freq)
-
     wave.send()
     
 def print_output():
@@ -28,4 +27,4 @@ def print_output():
     print('Frequency: ',wave.freq)
     
 
-generate()
+
