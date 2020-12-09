@@ -13,8 +13,8 @@ def generate(shape = 'sine',freq = 1000):
       wave.set_shape('triangle')
     elif shape == 'square':
       wave.set_shape('square')
-    elif shape == 'pause':
-      wave.set_shape('pause')
+    elif shape == 'sleep':
+      wave.set_shape('sleep')
     else:
       wave.set_shape('sine')
 

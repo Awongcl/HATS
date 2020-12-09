@@ -8,7 +8,7 @@ SHAPE_ID = {
     'square': 0x2020,
     'triangle': 0x0002,
     'sine': 0x2000,
-    'pause': 0x0040
+    'sleep': 0x0040
 }
 
 
@@ -17,9 +17,9 @@ class AD9833(object):
     # Chip Clock Frequency
     ClockFreq = 25000000
     
-    def __init__(self, major, minor):
+    def __init__(self,bus,device):
         self.spi = spidev.SpiDev()
-        self.spi.open(major, minor);
+        self.spi.open(bus, device);
         self.spi.max_speed_hz = 1000000
 
     def set_shape(self, shape):

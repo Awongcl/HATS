@@ -3,8 +3,6 @@ from i2cdevice.adapter import Adapter, LookupAdapter
 import time
 import struct
 
-__version__ = '0.0.6'
-
 I2C_ADDRESS_DEFAULT = 0x48  # Default i2c address for Pimoroni breakout
 I2C_ADDRESS_ALTERNATE = 0x49  # Default alternate i2c address for Pimoroni breakout
 I2C_ADDRESS_ADDR_GND = 0x48  # Address when ADDR pin is connected to Ground
@@ -53,12 +51,12 @@ class ADS1015:
         self._i2c_addr = i2c_addr
         self._i2c_dev = i2c_dev
         self._alert_pin = alert_pin
-        self._deprecated_channels = {
+        '''self._deprecated_channels = {
             'in0/ref': 'in0/in3',
             'in1/ref': 'in1/in3',
             'in2/ref': 'in2/in3',
             'ref/gnd': 'in3/gnd'
-        }
+        }'''
         self._ads1015 = Device(I2C_ADDRESSES, i2c_dev=self._i2c_dev, bit_width=8, registers=(
             Register('CONFIG', 0x01, fields=(
                 BitField('operational_status', 0b1000000000000000, adapter=LookupAdapter({
@@ -67,13 +65,13 @@ class ADS1015:
                 })),
                 BitField('multiplexer', 0b0111000000000000, adapter=LookupAdapter({
                     'in0/in1': 0b000,   # Differential reading between in0 and in1, voltages must not be negative and must not exceed supply voltage
-                    'in0/in3': 0b001,   # Differential reading between in0 and in3. pimoroni breakout onboard reference connected to in3
-                    'in1/in3': 0b010,   # Differential reading between in1 and in3. pimoroni breakout onboard reference connected to in3
-                    'in2/in3': 0b011,   # Differential reading between in2 and in3. pimoroni breakout onboard reference connected to in3
+                    'in0/in3': 0b001,   # Differential reading between in0 and in3. 
+                    'in1/in3': 0b010,   # Differential reading between in1 and in3. 
+                    'in2/in3': 0b011,   # Differential reading between in2 and in3. 
                     'in0/gnd': 0b100,   # Single-ended reading between in0 and GND
                     'in1/gnd': 0b101,   # Single-ended reading between in1 and GND
                     'in2/gnd': 0b110,   # Single-ended reading between in2 and GND
-                    'in3/gnd': 0b111    # Single-ended reading between in3 and GND. Should always read 1.25v (or reference voltage) on pimoroni breakout
+                    'in3/gnd': 0b111    # Single-ended reading between in3 and GND. 
                 })),
                 BitField('programmable_gain', 0b0000111000000000, adapter=LookupAdapter({
                     6.144: 0b000,
@@ -113,12 +111,10 @@ class ADS1015:
                 }))
             ), bit_width=16),
             Register('CONV', 0x00, fields=(
-                BitField('value', 0xFFF0, adapter=ConvAdapter()),
-            ), bit_width=16),
+                BitField('value', 0xFFF0, adapter=ConvAdapter()),), bit_width=16),
             Register('THRESHOLD', 0x02, fields=(
                 BitField('low', 0xFFFF, adapter=S16Adapter()),
-                BitField('high', 0xFFFF, adapter=S16Adapter())
-            ), bit_width=32)
+                BitField('high', 0xFFFF, adapter=S16Adapter())), bit_width=32)
         ))
         self._ads1015.select_address(self._i2c_addr)
 
@@ -132,7 +128,7 @@ class ADS1015:
 
     def set_status(self, value):
         """Set the operational status.
-
+        
         :param value: Set to true to trigger a conversion, false will have no effect.
 
         """
@@ -171,8 +167,8 @@ class ADS1015:
         :param value: Takes the form a/b
 
         """
-        if value in self._deprecated_channels.keys():
-            value = self._deprecated_channels[value]
+        #if value in self._deprecated_channels.keys():
+        #    value = self._deprecated_channels[value]
         self._ads1015.set('CONFIG', multiplexer=value)
 
     def get_multiplexer(self):

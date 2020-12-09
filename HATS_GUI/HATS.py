@@ -13,7 +13,7 @@ root.geometry("1080x720")
 my_notebook = ttk.Notebook(root)
 my_notebook.pack(pady=10)
 
-################################################################ Frame UI ###############################################################################
+################################################################ Notebook UI ###############################################################################
 
 dacFrame = Frame(my_notebook,width=1080, height=720, background="white")
 dacFrame.pack(fill=BOTH,expand = 1)
@@ -23,7 +23,6 @@ adcFrame.pack(fill="both",expand = 1)
 
 matrixFrame = Frame(my_notebook,width=1080, height=720, background="white")
 matrixFrame.pack(fill="both",expand = 1)
-
 
 my_notebook.add(dacFrame,text="DAC")
 my_notebook.add(adcFrame,text="ADC")
@@ -42,9 +41,13 @@ def wave():
 
 def dac_enable():
     if dac_en.get() == 1:
-        dac_text.delete(1.0,END)
         dac_text.config(state=NORMAL)
+        dac_text.delete(1.0,END)
         dac_text.insert(END, "DAC ready to run.")
+    else:
+        dac_text.delete(1.0,END)
+        dac_text.insert(1.0, "Please enable DAC")
+        dac_text.config(state=DISABLED)
 
 #Check button
 dac_en = IntVar()
@@ -61,7 +64,7 @@ freuqency = Entry(dacFrame,width=15,bg="white")
 freuqency.insert(END,1000)
 freuqency.place(x=120,y=120)
 #Option menu
-shape = ["Sine","Triangle","Square","Pause"]
+shape = ["Sine","Triangle","Square","Sleep"]
 shape_variable = StringVar(dacFrame)
 shape_variable.set(shape[0])
 wave_type = OptionMenu(dacFrame, shape_variable, *shape)
@@ -70,9 +73,14 @@ wave_type.place(x=130,y=45)
 generate_wave = Button(dacFrame,text="Generate Waveform",command=wave)
 generate_wave.place(x=100,y=250)
 #Text
-dac_text = Text(dacFrame,height=15, width=30,state=DISABLED)
+dac_text = Text(dacFrame,height=15, width=30)
+dac_text.insert(1.0, "Please enable DAC")
+dac_text.configure(state=DISABLED)
 dac_text.pack(fill=X,side=BOTTOM)
 
+############################################################# ADC ############################################################################
+#Labels
+Label(adcFrame,text="ADS1015").place(x=20,y=20)
 
 ############################################################# Crosspoint matrix ############################################################################
 # Number of rows and columns for ADG2128
