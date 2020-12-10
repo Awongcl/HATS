@@ -46,17 +46,17 @@ class ConvAdapter(Adapter):
 
 
 class ADS1015:
-    def __init__(self, i2c_addr=I2C_ADDRESS_DEFAULT, alert_pin=None, i2c_dev=None):
+    def __init__(self, i2c_addr=I2C_ADDRESS_ADDR_VDD, alert_pin=None, i2c_dev=None):
         self._is_setup = False
         self._i2c_addr = i2c_addr
         self._i2c_dev = i2c_dev
         self._alert_pin = alert_pin
-        '''self._deprecated_channels = {
+        self._deprecated_channels = {
             'in0/ref': 'in0/in3',
             'in1/ref': 'in1/in3',
             'in2/ref': 'in2/in3',
             'ref/gnd': 'in3/gnd'
-        }'''
+        }
         self._ads1015 = Device(I2C_ADDRESSES, i2c_dev=self._i2c_dev, bit_width=8, registers=(
             Register('CONFIG', 0x01, fields=(
                 BitField('operational_status', 0b1000000000000000, adapter=LookupAdapter({
@@ -190,14 +190,10 @@ class ADS1015:
         return self._ads1015.get('CONFIG').mode
 
     def set_programmable_gain(self, value=2.048):
-        """Set the analog gain. This has no function on the ADS1013.
-
+        """Set the analog gain. 
         Sets up the full-scale range and resolution of the ADC in volts.
-
         The range is always differential, so a value of 6.144v would give a range of +-6.144.
-
-        A single-ended reading will therefore always have only 11-bits of resolution, since the 12th bit is the (unused) sign bit.
-
+        single-ended reading will therefore always have only 11-bits of resolution, since the 12th bit is the (unused) sign bit.
         :param value: the range in volts - one of 6.144, 4.096, 2.048 (default), 1.024, 0.512 or 0.256
 
         """
@@ -209,9 +205,7 @@ class ADS1015:
 
     def set_sample_rate(self, value=1600):
         """Set the analog sample rate.
-
-        :param value: The sample rate in samples-per-second - one of 128, 250, 490, 920, 1600 (default), 2400 or 3300
-
+        :param value: The sample rate in samples-per-second - one of 128, 250, 490, 920, 1600 (default), 2400 or 330
         """
         self._ads1015.set('CONFIG', data_rate_sps=value)
 

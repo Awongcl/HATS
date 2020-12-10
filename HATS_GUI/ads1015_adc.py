@@ -1,4 +1,3 @@
-
 import time
 from ads1015 import ADS1015
 
@@ -9,8 +8,8 @@ print("""read-all.py - read all three inputs of the ADC Press Ctrl+C to exit!
 
 ads1015 = ADS1015()
 ads1015.set_mode('single')
-ads1015.set_programmable_gain(6.1444)
-ads1015.set_sample_rate(3200)
+ads1015.set_programmable_gain(6.144)
+ads1015.set_sample_rate(1600)
 reference = ads1015.get_reference_voltage()
 
 print("Reference voltage: {:6.3f}v \n".format(reference))

@@ -28,12 +28,15 @@ class AD9833(object):
     def set_freq(self, freq):
         self.freq = freq
 
+    def reset(self):
+        self.spi.xfer2([0x01,0x00])
+
     def send(self):
         # Calculate frequency word to send
         pulse = self.freq if self.shape is not 'square' else self.freq * 2
         word = round((pulse*2**28)/self.ClockFreq)
 
-        print(hex(word))
+        #print(hex(word))
         # split frequency word into two 14-bit parts as MSB and LSB.
         freq_msb = (word & 0xFFFC000) >> 14
         freq_lsb = (word & 0x3FFF)
