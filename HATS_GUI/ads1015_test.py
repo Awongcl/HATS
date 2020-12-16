@@ -1,5 +1,5 @@
 import time
-from ads1015 import ADS1015
+from ads1015_driver import ADS1015
 
 CHANNELS = ['in0/gnd', 'in1/gnd', 'in2/gnd', 'in3/gnd']
 
