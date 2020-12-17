@@ -1,5 +1,5 @@
 *** Settings ***
-Library           ../HATS_GUI/wave_gen.py
+Library           ../HATS/ad9833.py
 
 *** Variables ***
 ${success}        success

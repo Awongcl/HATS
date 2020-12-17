@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import time
-from ad9833 import AD9833
+from ad9833_driver import AD9833
 
 # device and spi_ch
 spi_ch = 0

@@ -1,7 +1,9 @@
 from i2cdevice import Device, Register, BitField, _int_to_bytes
 from i2cdevice.adapter import Adapter, LookupAdapter
+from smbus2 import SMBus, i2c_msg
 import time
 import struct
+
 
 I2C_ADDRESS_DEFAULT = 0x48  # Default i2c address for Pimoroni breakout
 I2C_ADDRESS_ALTERNATE = 0x49  # Default alternate i2c address for Pimoroni breakout
@@ -32,7 +34,7 @@ class S16Adapter(Adapter):
 
     def _encode(self, value):
         v = struct.pack('>h', value)
-        return (ord(v[0]) << 8) | ord(v[1])
+        return (v[0] << 8) | v[1]
 
 
 class ConvAdapter(Adapter):
@@ -229,7 +231,8 @@ class ADS1015:
 
     def get_comparator_mode(self):
         """Return the current comparator mode."""
-        self._ads1015.get('CONFIG').comparator_mode
+        return self._ads1015.get('CONFIG').comparator_mode
+        
 
     def set_comparator_latching(self, value):
         self._ads1015.set('CONFIG', comparator_latching=value)
@@ -301,3 +304,12 @@ class ADS1015:
 
     def get_high_threshold(self):
         return self._ads1015.get('HIGH_THRESHOLD').high
+
+    def reset(self):
+        with SMBus(1) as bus:
+    
+            data = 0x06
+            # Write a single byte
+            msg = i2c_msg.write(0x00, [data])
+            bus.i2c_rdwr(msg)
+                
