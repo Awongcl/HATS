@@ -1,5 +1,3 @@
-from i2cdevice import Device, Register, BitField, _int_to_bytes
-from i2cdevice.adapter import Adapter, LookupAdapter
 from smbus2 import SMBus, i2c_msg
 
 I2C_ADDR = 0x28
@@ -11,6 +9,7 @@ class DS1050:
     def __init__(self, i2c_addr=I2C_ADDR,i2c_dev=None):
         self._i2c_addr = i2c_addr
         self._i2c_dev = i2c_dev
+
 
     #set PWM duty cycle
     def set_cycle(self,step=16):
@@ -45,5 +44,6 @@ class DS1050:
             print('Recalled from shutdown mode!')
 
     def read(self):    
-        return 0;
-    
+        with SMBus(1) as bus:
+            data = bus.read_byte(I2C_ADDR)
+            print("Reg Value: {}".format(data))

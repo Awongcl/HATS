@@ -19,8 +19,9 @@ class ADG715:
     # read the status of the register
     def read(self):
         with SMBus(1) as bus:
-            msg = i2c_msg.read(I2C_ADDR_GND, 1)
-            print(bus.i2c_rdwr(msg))
+            data = bus.read_byte(I2C_ADDR_GND)
+            print(data)
+            
 
 
     #reset to default (all close)

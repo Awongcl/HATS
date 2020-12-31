@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import spidev
 
 SPI_SPEED = 1000000
