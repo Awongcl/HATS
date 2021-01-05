@@ -23,7 +23,7 @@ class DS1050:
             print('{}% duty cycle set!'.format(percent))
 
     #set 100% duty cycle
-    def set_duty_full(self):
+    def set_full_cycle(self):
         # Write a single byte to address
         with SMBus(1) as bus:
             msg = i2c_msg.write(I2C_ADDR, [0x20])

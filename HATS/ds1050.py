@@ -13,7 +13,7 @@ def set_cycle(cycle = 16):
     ds1050.set_cycle(cycle)
 
 def set_full_cycle():
-    ds1050.set_duty_full()
+    ds1050.set_full_cycle()
 
 def shutdown():
     ds1050.shutdown()
@@ -24,4 +24,3 @@ def wakeup():
 def read():
     ds1050.read()
 
-read()

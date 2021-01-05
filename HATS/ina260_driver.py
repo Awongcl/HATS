@@ -1,3 +1,4 @@
+
 from i2cdevice import Device, Register, BitField, _int_to_bytes
 from i2cdevice.adapter import Adapter, LookupAdapter
 from smbus2 import SMBus, i2c_msg
