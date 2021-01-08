@@ -1,36 +1,25 @@
-import time
 from ads1015_driver import ADS1015
+import time
 
-I2C_ADDRESS_DEFAULT = 0x48  # Default i2c address for Pimoroni breakout
-I2C_ADDRESS_ALTERNATE = 0x49  # Default alternate i2c address for Pimoroni breakout
+
 I2C_ADDRESS_ADDR_GND = 0x48  # Address when ADDR pin is connected to Ground
 I2C_ADDRESS_ADDR_VDD = 0x49  # Address when ADDR pin is connected to VDD
-I2C_ADDRESS_ADDR_SDA = 0x50  # Address when ADDR pin is connected to SDA. 
+I2C_ADDRESS_ADDR_SDA = 0x50  # Address when ADDR pin is connected to SDA
 I2C_ADDRESS_ADDR_SCL = 0x51  # Address when ADDR pin is connected to SCL
-'''
-'in0/in1' - Differential reading between in0 and in1, voltages must not be negative and must not exceed supply voltage
-'in0/in3' - Differential reading between in0 and in3
-'in1/in3' - Differential reading between in1 and in3
-'in2/in3' - Differential reading between in2 and in3
-'in0/gnd' - Single-ended reading between in0 and GND
-'in1/gnd' - Single-ended reading between in1 and GND
-'in2/gnd' - Single-ended reading between in2 and GND
-'in3/gnd' - Single-ended reading between in3 and GND
-'''
+
 CHANNELS = ['in0/gnd','in1/gnd','in2/gnd','in3/gnd',
 'in0/in1','in0/in3','in1/in3','in2/in3']
 
-ads1015 = ADS1015(I2C_ADDRESS_ADDR_VDD) #Initialize IC
 
+ads1015 = ADS1015(I2C_ADDRESS_ADDR_VDD)
 
-# read voltage across all channels
-def read_voltage(mode='single',sample_rate=1600,gain=2.048):
+def get_all_voltage(mode = "single",sample_rate=1600,gain=2.048):
     # 'single'/'continuous' 
     ads1015.set_mode(mode)
     #one of 128, 250, 490, 920, 1600 (default), 2400 or 330
     ads1015.set_sample_rate(sample_rate)
     #one of 6.144, 4.096, 2.048 (default), 1.024, 0.512 or 0.256
-    ads1015.set_programmable_gain(gain)
+    ads1015.set_gain(gain)
     ##print(ads1015.get_conversion_value())
     print('Reading ADS1015 values.....')
     # Print nice channel column headers.
@@ -42,41 +31,45 @@ def read_voltage(mode='single',sample_rate=1600,gain=2.048):
     values = [0]*8
     raw = [0]*8
     for i in range(8):
-        values[i] = ads1015.get_voltage(channel = CHANNELS[i])
-        raw[i] = ads1015.get_conversion_value()
+        ads1015.set_mux(CHANNELS[i])
+        values[i] = ads1015.get_voltage()
+        raw[i] = ads1015.get_raw_voltage()
         
     print('| {0:^7} | {1:^7} | {2:^7} | {3:^7} | {4:^7} | {5:^7} | {6:^7} | {7:^7} |'.format(*values))
     print('| {0:^7} | {1:^7} | {2:^7} | {3:^7} | {4:^7} | {5:^7} | {6:^7} | {7:^7} |'.format(*raw))
-    return "success"
 
-def read_voltage_single(mode='single',sample_rate=1600,gain=2.048,channel='in0/gnd'):
-    value = ads1015.get_voltage(channel = channel)
-    print("{}: {:6.3f}v".format(channel, value))
-    return "success"
-# get the current configurations
-def get_configs():
-    print("ADC Mode: "+ads1015.get_mode())
-    print("Gain: {:6.3f}v".format(ads1015.get_programmable_gain()))
-    print("Sample Rate:  {}".format(ads1015.get_sample_rate()))
-    print("Comparator mode: "+ads1015.get_comparator_mode())
-    print("High threshold: {}".format(ads1015.get_high_threshold()))
-    print("Low threshold:  {}".format(ads1015.get_low_threshold()))
-    return "success"
-# Set the high and low threshold for digital comparatpor
-def set_digital_comparator(High_thresh=20000,Low_thresh=5000,mode='window'):
-    # Mode can be 'window'/'traditional', used on alert/rdy pin
+def get_voltage(mode = "single",rate=1600,gain=2.048,channel="in0/gnd"):
+    ads1015.set_sample_rate(rate)
+    ads1015.set_gain(gain)
+    ads1015.set_mux(channel)
+    ads1015.set_mode(mode)
+    print("{} V".format(ads1015.get_voltage()))
+
+def get_config():
+    #print("Channel : {}".format(ads1015.get_mux()))
+    print("Gain : {}".format(ads1015.get_gain()))
+    print("Sample Rate : {}".format(ads1015.get_sample_rate()))
+    print("Mode : {}".format(ads1015.get_mode()))
+    print("Comparator mode : {}".format(ads1015.get_comparator_mode()))
+    l = ads1015.get_threshold()[0]
+    h = ads1015.get_threshold()[1]
+    print("Threshold(Low,High) : {}V,{}V".format(l,h))
+    print("Comparator Polarity: {}".format(ads1015.get_comparator_polarity()))
+        
+def set_digital_comparator(mode='traditional',low=0,high=0):
     ads1015.set_comparator_mode(mode)
-    ads1015.set_high_threshold(High_thresh)
-    ads1015.set_low_threshold(Low_thresh)
-    print("High threshold: {}".format(ads1015.get_high_threshold()))
-    print("Low threshold:  {}".format(ads1015.get_low_threshold()))
-    return "success"
+    ads1015.set_threshold(low,high)
+    print("Digital compaarator set!")
 
-#resets device
 def reset():
     ads1015.reset()
+    print("IC reset!")
     
 
 
-#read_voltage('single',3200,6.144)
-#set_digital_comparator(10000,5000,'window')
+
+
+
+
+
+

@@ -1,315 +1,277 @@
-from i2cdevice import Device, Register, BitField, _int_to_bytes
-from i2cdevice.adapter import Adapter, LookupAdapter
 from smbus2 import SMBus, i2c_msg
-import time
 import struct
+import time
 
 
-I2C_ADDRESS_DEFAULT = 0x48  # Default i2c address for Pimoroni breakout
-I2C_ADDRESS_ALTERNATE = 0x49  # Default alternate i2c address for Pimoroni breakout
-I2C_ADDRESS_ADDR_GND = 0x48  # Address when ADDR pin is connected to Ground
-I2C_ADDRESS_ADDR_VDD = 0x49  # Address when ADDR pin is connected to VDD
-I2C_ADDRESS_ADDR_SDA = 0x50  # Address when ADDR pin is connected to SDA. Device datasheet recommends using this address last (sec 8.5.1.1)
-I2C_ADDRESS_ADDR_SCL = 0x51  # Address when ADDR pin is connected to SCL
+''' Registers (16 bits)'''
+CONVERSION_REG = 0x0
+CONFIG_REG = 0x1
+LOW_THRESH_REG = 0x2
+HIGH_THRESH_REG = 0x3
 
-I2C_ADDRESSES = [
-    I2C_ADDRESS_DEFAULT,
-    I2C_ADDRESS_ALTERNATE,
-    I2C_ADDRESS_ADDR_GND,
-    I2C_ADDRESS_ADDR_VDD,
-    I2C_ADDRESS_ADDR_SDA,
-    I2C_ADDRESS_ADDR_SCL
-]
+''' MASKS , for reset fields to 0's ''' 
+MUX_MASK = 0x0FFF
+GAIN_MASK = 0x71FF
+RATE_MASK = 0x7F1F
+MODE_MASK = 0x7EFF
+COMPARATOR_MODE_MASK = 0x7FEF
+COMPARATOR_POLARITY_MASK = 0x7FF7
 
 
-try:
-    ADS1015TimeoutError = TimeoutError
-except NameError:
-    from socket import timeout as ADS1015TimeoutError
 
+''' bit Shift '''
+MUX_SHIFT = 12
+OS_SHIFT = 15
+CONVERSION_SHIFT = 4
+GAIN_SHIFT = 9
+RATE_SHIFT = 5
+MODE_SHIFT = 8
+COMPARATOR_MODE_SHIFT = 4
+COMPARATOR_POLARITY_SHIFT = 3
 
-class S16Adapter(Adapter):
-    def _decode(self, value):
-        return struct.unpack('>h', _int_to_bytes(value, 2))[0]
+''' Keys '''
+MUX = { 'in0/in1': 0b000,   # Differential reading between in0 and in1, voltages must not be negative and must not exceed supply voltage
+        'in0/in3': 0b001,   # Differential reading between in0 and in3. 
+        'in1/in3': 0b010,   # Differential reading between in1 and in3. 
+        'in2/in3': 0b011,   # Differential reading between in2 and in3. 
+        'in0/gnd': 0b100,   # Single-ended reading between in0 and GND
+        'in1/gnd': 0b101,   # Single-ended reading between in1 and GND
+        'in2/gnd': 0b110,   # Single-ended reading between in2 and GND
+        'in3/gnd': 0b111}
 
-    def _encode(self, value):
-        v = struct.pack('>h', value)
-        return (v[0] << 8) | v[1]
+GAIN = {6.144: 0b000,
+        4.096: 0b001,
+        2.048: 0b010,
+        1.024: 0b011,
+        0.512: 0b100,
+        0.256: 0b101}
 
+RATE = {128: 0b000,
+        250: 0b001,
+        490: 0b010,
+        920: 0b011,
+        1600: 0b100,
+        2400: 0b101,
+        3300: 0b110}
 
-class ConvAdapter(Adapter):
-    def _decode(self, value):
-        if value & 0x800:
-            value -= 1 << 12
-        return value
+''' Function to convert any length list to bits '''
+def list_to_bits(list):
+    shift = (len(list)-1)*8
+    data = 0x0000
+    for b in list:
+        b = b << shift
+        data = data | b
+        shift -= 8
+    return data
 
-    def _encode(self, value):
-        return 0
+''' Function to convert 16bits to byte list '''
+def hword_to_byte_list(hword):
+    list = []
+    msb = (hword & 0xFF00) >> 8
+    lsb = hword & 0x00FF
+    list.append(msb)
+    list.append(lsb)
+    return list
 
+def twos_comp(val, bits):
+    """compute the 2's complement of int value val"""
+    if (val & (1 << (bits - 1))) != 0: # if sign bit is set e.g., 8bit: 128-255
+        val = val - (1 << bits)        # compute negative value
+    return val
 
 class ADS1015:
-    def __init__(self, i2c_addr=I2C_ADDRESS_ADDR_VDD, alert_pin=None, i2c_dev=None):
-        self._is_setup = False
-        self._i2c_addr = i2c_addr
-        self._i2c_dev = i2c_dev
-        self._alert_pin = alert_pin
-        self._deprecated_channels = {
-            'in0/ref': 'in0/in3',
-            'in1/ref': 'in1/in3',
-            'in2/ref': 'in2/in3',
-            'ref/gnd': 'in3/gnd'
-        }
-        self._ads1015 = Device(I2C_ADDRESSES, i2c_dev=self._i2c_dev, bit_width=8, registers=(
-            Register('CONFIG', 0x01, fields=(
-                BitField('operational_status', 0b1000000000000000, adapter=LookupAdapter({
-                    'active': 0,
-                    'inactive_start': 1
-                })),
-                BitField('multiplexer', 0b0111000000000000, adapter=LookupAdapter({
-                    'in0/in1': 0b000,   # Differential reading between in0 and in1, voltages must not be negative and must not exceed supply voltage
-                    'in0/in3': 0b001,   # Differential reading between in0 and in3. 
-                    'in1/in3': 0b010,   # Differential reading between in1 and in3. 
-                    'in2/in3': 0b011,   # Differential reading between in2 and in3. 
-                    'in0/gnd': 0b100,   # Single-ended reading between in0 and GND
-                    'in1/gnd': 0b101,   # Single-ended reading between in1 and GND
-                    'in2/gnd': 0b110,   # Single-ended reading between in2 and GND
-                    'in3/gnd': 0b111    # Single-ended reading between in3 and GND. 
-                })),
-                BitField('programmable_gain', 0b0000111000000000, adapter=LookupAdapter({
-                    6.144: 0b000,
-                    4.096: 0b001,
-                    2.048: 0b010,
-                    1.024: 0b011,
-                    0.512: 0b100,
-                    0.256: 0b101
-                })),
-                BitField('mode', 0b0000000100000000, adapter=LookupAdapter({
-                    'continuous': 0,
-                    'single': 1
-                })),
-                BitField('data_rate_sps', 0b0000000001110000, adapter=LookupAdapter({
-                    128: 0b000,
-                    250: 0b001,
-                    490: 0b010,
-                    920: 0b011,
-                    1600: 0b100,
-                    2400: 0b101,
-                    3300: 0b110
-                })),
-                BitField('comparator_mode', 0b0000000000010000, adapter=LookupAdapter({
-                    'traditional': 0b0,  # Traditional comparator with hystersis
-                    'window': 0b01
-                })),
-                BitField('comparator_polarity', 0b0000000000001000, adapter=LookupAdapter({
-                    'active_low': 0b0,
-                    'active_high': 0b1
-                })),
-                BitField('comparator_latching', 0b0000000000000100),
-                BitField('comparator_queue', 0b0000000000000011, adapter=LookupAdapter({
-                    'one': 0b00,
-                    'two': 0b01,
-                    'four': 0b10,
-                    'disabled': 0b11
-                }))
-            ), bit_width=16),
-            Register('CONV', 0x00, fields=(
-                BitField('value', 0xFFF0, adapter=ConvAdapter()),), bit_width=16),
-            Register('HIGH_THRESHOLD', 0x02, fields=(
-                BitField('high', 0xFFF0,adapter=S16Adapter()),),bit_width=16),
-            Register('LOW_THRESHOLD', 0x03, fields=(
-                BitField('low', 0xFFF0,adapter=S16Adapter()),), bit_width=16)
-        ))
-        self._ads1015.select_address(self._i2c_addr)
-        #adapter=S16Adapter()
+    def __init__(self, i2c_addr, alert_pin=None, i2c_dev=None):
+        self.i2c_addr = i2c_addr
+        self.i2c_dev = i2c_dev
+        self.alert_pin = alert_pin
 
+    ''' Get 12 bit raw conversion value '''
+    def get_conversion_reg(self):
+        self.start_conversion()
+        if not self.conversion_ready():
+            time.sleep(0.001)
+        with SMBus(1) as bus:
+            data = list_to_bits(bus.read_i2c_block_data(self.i2c_addr,CONVERSION_REG,2))
+            return data
+
+    ''' Get raw voltage '''
+    def get_raw_voltage(self):
+        return self.get_conversion_reg() >> CONVERSION_SHIFT
+
+    ''' Get voltage from raw data '''
+    def get_voltage(self):
+        data = self.get_conversion_reg() >> CONVERSION_SHIFT
+        lsb = (self.get_gain()*2)/(2**12)
+        return data*lsb
+
+    ''' start a conversion ''' 
     def start_conversion(self):
-        """Start a conversion."""
-        self.set_status('inactive_start')
+        data = 0x8000 | self.get_config_reg()
+        data = hword_to_byte_list(data)
+        with SMBus(1) as bus:
+            bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
 
+    ''' Check if conversion is done ''' 
     def conversion_ready(self):
-        """Check if conversion is ready."""
-        return self.get_status() != 'active'
+        #print(hex(self.get_config_reg()))
+        data = self.get_config_reg() >> OS_SHIFT
+        if data == 1:
+            return True
+        return False
 
-    def set_status(self, value):
-        """Set the operational status.
-        
-        :param value: Set to true to trigger a conversion, false will have no effect.
+    ''' Get 16 bit configuration register value '''
+    def get_config_reg(self):
+        with SMBus(1) as bus:
+            data = list_to_bits(bus.read_i2c_block_data(self.i2c_addr,CONFIG_REG,2))
+            return data
 
-        """
-        self._ads1015.set('CONFIG', operational_status=value)
-
-    def get_status(self):
-        """Get the operational status.
-
-        Result will be true if the ADC is actively performing a conversion and false if it has completed.
-
-        """
-        return self._ads1015.get('CONFIG').operational_status
-
-    def set_multiplexer(self, value):
-        """Set the analog multiplexer.
-
-        Sets up the analog input in single or differential modes.
-
-        If b is specified as gnd the ADC will be in single-ended mode, referenced against Ground.
-
-        If b is specified as in1 or ref the ADC will be in differential mode.
-
-        a should be one of in0, in1, in2, or in3
-
-        This method has no function on the ADS1013 or ADS1014
-
-        'in0/in1' - Differential reading between in0 and in1, voltages must not be negative and must not exceed supply voltage
+    '''
+        'in0/in1' - Differential reading between in0 and in1 (default)
         'in0/in3' - Differential reading between in0 and in3
         'in1/in3' - Differential reading between in1 and in3
         'in2/in3' - Differential reading between in2 and in3
         'in0/gnd' - Single-ended reading between in0 and GND
         'in1/gnd' - Single-ended reading between in1 and GND
         'in2/gnd' - Single-ended reading between in2 and GND
-        'in3/gnd' - Should always read 1.25v (or reference voltage)
+        'in3/gnd' - Single-ended reading between in3 and GND
+    '''
+    def set_mux(self,channel = "in0/gnd"):
+        reg = self.get_config_reg() & MUX_MASK
+        data = reg | (MUX[channel] << MUX_SHIFT)
+        data = hword_to_byte_list(data)
+        with SMBus(1) as bus:
+            bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
+    
 
-        :param value: Takes the form a/b
+    ''' Get current mux setting ''' 
+    def get_mux(self):
+        data = 0b111 & (self.get_config_reg() >> MUX_SHIFT)
+        for key, value in MUX.items(): 
+            if value == data:
+                return key
 
-        """
-        #if value in self._deprecated_channels.keys():
-        #    value = self._deprecated_channels[value]
-        self._ads1015.set('CONFIG', multiplexer=value)
 
-    def get_multiplexer(self):
-        """Return the current analog multiplexer state."""
-        return self._ads1015.get('CONFIG').multiplexer
+    ''' Set the gain of the PGA 
+    Options: +- 6.144,4.096,2.048(default),1.024,0.512,0.256'''
+    def set_gain(self,gain=2.048):
+        reg = self.get_config_reg() & GAIN_MASK
+        data = reg | (GAIN[gain] << GAIN_SHIFT)
+        data = hword_to_byte_list(data)
+        with SMBus(1) as bus:
+            bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
+    
+    def get_gain(self):
+        data = 0b111 & (self.get_config_reg() >> GAIN_SHIFT)
+        for key, value in GAIN.items(): 
+            if value == data:
+                return key
 
-    def set_mode(self, value):
-        """Set the analog mode.
+    ''' Set sampling rate 
+        Options: 125,250,490,920,1600(default),2400,3300,3300 SPS''' 
+    def set_sample_rate(self,rate=1600):
+        reg = self.get_config_reg() & RATE_MASK
+        data = reg | (RATE[rate] << RATE_SHIFT)
+        data = hword_to_byte_list(data)
+        with SMBus(1) as bus:
+            bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
 
-        In single-mode you must trigger a conversion manually by writing the status bit.
-
-        :param value: One of 'continuous' or 'single'
-
-        """
-        self._ads1015.set('CONFIG', mode=value)
-
-    def get_mode(self):
-        """Get the analog mode."""
-        return self._ads1015.get('CONFIG').mode
-
-    def set_programmable_gain(self, value=2.048):
-        """Set the analog gain. 
-        Sets up the full-scale range and resolution of the ADC in volts.
-        The range is always differential, so a value of 6.144v would give a range of +-6.144.
-        single-ended reading will therefore always have only 11-bits of resolution, since the 12th bit is the (unused) sign bit.
-        :param value: the range in volts - one of 6.144, 4.096, 2.048 (default), 1.024, 0.512 or 0.256
-
-        """
-        self._ads1015.set('CONFIG', programmable_gain=value)
-
-    def get_programmable_gain(self):
-        """Return the curren gain setting."""
-        return self._ads1015.get('CONFIG').programmable_gain
-
-    def set_sample_rate(self, value=1600):
-        """Set the analog sample rate.
-        :param value: The sample rate in samples-per-second - one of 128, 250, 490, 920, 1600 (default), 2400 or 330
-        """
-        self._ads1015.set('CONFIG', data_rate_sps=value)
-
+    ''' Get sample rate '''
     def get_sample_rate(self):
-        """Return the current sample-rate setting."""
-        return self._ads1015.get('CONFIG').data_rate_sps
+        data = 0b111 & (self.get_config_reg() >> RATE_SHIFT)
+        for key, value in RATE.items(): 
+            if value == data:
+                return key
 
-    def set_comparator_mode(self, value):
-        """Set the analog comparator mode.
+    ''' Set mode 
+        Options : "single"/"continous" '''
+    def set_mode(self,mode = "single"):
+        if mode == "single":
+            m = 1
+        else:
+            m = 0
+        reg = self.get_config_reg() & MODE_MASK
+        data = reg | (m << MODE_SHIFT)
+        data = hword_to_byte_list(data)
+        with SMBus(1) as bus:
+            bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
 
-        In traditional mode the comparator asserts the alert/ready pin when the conversion data exceeds the high threshold and de-asserts when it falls below the low threshold.
+    ''' Get device mode '''
+    def get_mode(self):
+        data = 0b1 & (self.get_config_reg() >> MODE_SHIFT)
+        if data == 1:
+            return "single"
+        return "continous"
 
-        In window mode the comparator asserts the alert/ready pin when the conversion data exceeds the high threshold or falls below the low threshold.
-
-        :param value: Either 'traditional' or 'window'
-
-        """
-        self._ads1015.set('CONFIG', comparator_mode=value)
-
+    ''' Set comparator mode
+        Options : "window"/"traditional"(default) '''
+    def set_comparator_mode(self,mode="traditional"):
+        if mode == "window":
+            m = 1
+        else:
+            m = 0
+        reg = self.get_config_reg() & COMPARATOR_MODE_MASK
+        data = reg | (m << COMPARATOR_MODE_SHIFT)
+        data = hword_to_byte_list(data)
+        with SMBus(1) as bus:
+            bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
+    
+    ''' Get comparatr mode '''
     def get_comparator_mode(self):
-        """Return the current comparator mode."""
-        return self._ads1015.get('CONFIG').comparator_mode
-        
+        data = 0b1 & (self.get_config_reg() >> COMPARATOR_MODE_SHIFT)
+        if data == 1:
+            return "window"
+        return "traditional"
 
-    def set_comparator_latching(self, value):
-        self._ads1015.set('CONFIG', comparator_latching=value)
+    ''' Set Low and high threshold for digital comparator '''
+    def set_threshold(self,low,high):
+        mask = 0x0000
+        gain = self.get_gain()
+        lsb = (gain*2)/(2**12)
+        l = hword_to_byte_list(mask | (int(low/lsb) << 4))
+        h = hword_to_byte_list(mask | (int(high/lsb) << 4))
+        with SMBus(1) as bus:
+            bus.write_i2c_block_data(self.i2c_addr,LOW_THRESH_REG,l)
+            bus.write_i2c_block_data(self.i2c_addr,HIGH_THRESH_REG,h)
 
-    def get_comparator_latching(self):
-        self._ads1015.get('CONFIG').comparator_latching
+    ''' Get Low and High threshold values '''
+    def get_threshold(self):
+        gain = self.get_gain()
+        lsb = (gain*2)/(2**12)
+        with SMBus(1) as bus:
+            low = list_to_bits(bus.read_i2c_block_data(self.i2c_addr,LOW_THRESH_REG,2)) >> 4
+            high = list_to_bits(bus.read_i2c_block_data(self.i2c_addr,HIGH_THRESH_REG,2)) >> 4
+        return [twos_comp(low,12)*lsb,twos_comp(high,12)*lsb]
 
-    def set_comparator_queue(self, value):
-        self._ads1015.set('CONFIG', comparator_queue=value)
 
-    def get_comparator_queue(self):
-        return self._ads1015.get('CONFIG').comparator_queue
+    ''' Set comparator polarity 
+        Options: "low"/"high" '''
+    def set_comparator_polarity(self,polarity="low"):
+        if polarity == "low":
+            b = 0
+        else:
+            b = 1
+        reg = self.get_config_reg() & COMPARATOR_POLARITY_MASK
+        data = reg | (b << COMPARATOR_POLARITY_SHIFT)
+        data = hword_to_byte_list(data)
+        with SMBus(1) as bus:
+            bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
+    
 
-    def wait_for_conversion(self, timeout=10):
-        """Wait for ADC conversion to finish.
+    ''' Get comparatr polarity '''
+    def get_comparator_polarity(self):
+        data = 0b1 & (self.get_config_reg() >> COMPARATOR_POLARITY_SHIFT)
+        if data == 1:
+            return "Active High"
+        return "Active Low"
 
-        Timeout exception is alised as ads1015.ADS1015TimeoutError for convinience.
-
-        :param timeout: conversion timeout in seconds
-
-        :raises TimeoutError in Python 3.x
-        :raises socket.timeout in Python 2.x
-
-        """
-        t_start = time.time()
-        while not self.conversion_ready():
-            time.sleep(0.001)
-            if (time.time() - t_start) > timeout:
-                raise ADS1015TimeoutError("Timed out waiting for conversion.")
-
-    def get_reference_voltage(self):
-        """Read the reference voltage if availble"""
-        return self.get_voltage(channel='in3/gnd')
-
-    def get_voltage(self, channel=None):
-        """Read the raw voltage of a channel."""
-        if channel is not None:
-            self.set_multiplexer(channel)
-
-        self.start_conversion()
-        #self.wait_for_conversion()
-
-        value = self.get_conversion_value()
-        gain = self.get_programmable_gain()
-        gain *= 1000.0         # Convert gain from V to mV
-        value /= 2048.0        # Divide by total register size
-        value *= float(gain)   # Multiply by current gain value to get mV
-        value /= 1000.0        # mV to V
-        return value
-
-    def get_compensated_voltage(self, channel=None, vdiv_a=8060000, vdiv_b=402000, reference_voltage=1.241):
-        """Read and compensate the voltage of a channel."""
-        pin_v = self.get_voltage(channel=channel)
-        input_v = pin_v * (float(vdiv_a + vdiv_b) / float(vdiv_b))
-        input_v += reference_voltage
-        return round(input_v, 3)
-
-    def get_conversion_value(self):
-        return self._ads1015.get('CONV').value
-
-    def set_low_threshold(self, value):
-        self._ads1015.set('LOW_THRESHOLD', low=value)
-
-    def get_low_threshold(self):
-        return self._ads1015.get('LOW_THRESHOLD').low
-
-    def set_high_threshold(self, value):
-        self._ads1015.set('HIGH_THRESHOLD', high=value)
-
-    def get_high_threshold(self):
-        return self._ads1015.get('HIGH_THRESHOLD').high
-
+    ''' Resets IC to default '''
     def reset(self):
         with SMBus(1) as bus:
-    
-            data = 0x06
+            data = 0x06 # reset value
             # Write a single byte
             msg = i2c_msg.write(0x00, [data])
             bus.i2c_rdwr(msg)
-                
+
+
+
+

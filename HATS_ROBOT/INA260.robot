@@ -3,8 +3,7 @@ Library           ../HATS/ina260.py
 
 *** Test Cases ***
 get_all
-    [Documentation]    Get all the values, inlcuding:
-    ...    Voltage, current and power.
+    [Documentation]    Get all readings, inlcuding voltage, current and power
     #get_all()
     get_all
 
@@ -19,7 +18,7 @@ get_current
     get_current
 
 get_power
-    [Documentation]    Get \ power (Voltage * current )
+    [Documentation]    Get power (Voltage * current )
     #get_power()
     get_power
 
@@ -32,6 +31,7 @@ set_all
 
 read_config
     [Documentation]    Read the value of the configure register.
+    ...    16 bit hex value, detial please refer to datasheet
     #read_config()
     read_config
 

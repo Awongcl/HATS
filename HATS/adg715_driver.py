@@ -20,7 +20,7 @@ class ADG715:
     def read(self):
         with SMBus(1) as bus:
             data = bus.read_byte(I2C_ADDR_GND)
-            print(data)
+            print("Reg Value: {}".format(data))
             
 
 

@@ -16,12 +16,11 @@ def generate(shape = 'sine',freq = 1000):
     elif shape == 'sleep':
       wave.set_shape('sleep')
     elif shape == 'sine':
-      wave.set_shape('sleep')
+      wave.set_shape('sine')
     else:
       return 'fail'
 
     if freq not in range(0,12500000):
-      print('dsfd')
       return 'fail'
     wave.set_freq(freq)
     wave.send()
@@ -38,7 +37,7 @@ def sweep(shape='sine',begin_freq=20,end_freq=5000,inc_freq=10):
     elif shape == 'sleep':
       wave.set_shape('sleep')
     elif shape == 'sine':
-      wave.set_shape('sleep')
+      wave.set_shape('sine')
     else:
       return 'fail'
     

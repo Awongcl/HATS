@@ -21,15 +21,19 @@ class AD9833(object):
         self.spi.open(bus, device);
         self.spi.max_speed_hz = 1000000
 
+    ''' Sets shape, options: "sine","triangle","square","sleep" '''
     def set_shape(self, shape):
         self.shape = shape if shape in SHAPE_ID else 'sine'
 
+    ''' Sets freuqncy from 0 to 12500000 Hz '''
     def set_freq(self, freq):
         self.freq = freq
-
+    
+    ''' Resets IC '''
     def reset(self):
         self.spi.xfer2([0x01,0x00])
 
+    ''' Sends the serial data after setting bit fields '''
     def send(self):
         # Calculate frequency word to send
         pulse = self.freq if self.shape is not 'square' else self.freq * 2
