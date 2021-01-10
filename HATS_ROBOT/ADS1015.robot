@@ -28,7 +28,7 @@ set_digital_comparator
     ...    Modes : 'window', 'traditional'
     ...    e.g in window mode, alert/rdy pion asserts when the input is outside the bound of low and high threshold
     #set_digital_comparator(mode='traditional',low=0,high=0)
-    Set Digital Comparator    window    1    1
+    Set Digital Comparator    traditional    1    1
 
 Get_Config
     [Documentation]    Get the current configuration of the ADC.
