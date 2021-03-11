@@ -27,11 +27,11 @@ set_all
     ...    Average options: 1(default),4,16,64,128,256,512,1024
     ...    Mode options: ”trigger”/”continous”
     #set_all(self,avg =1 ,mode = "continous")
-    set_all    1    continous
+    set_all    16    continous
 
 read_config
     [Documentation]    Read the value of the configure register.
-    ...    16 bit hex value, detial please refer to datasheet
+    ...    16 bit hex value, detail please refer to datasheet
     #read_config()
     read_config
 

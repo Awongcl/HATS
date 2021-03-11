@@ -78,11 +78,14 @@ class AD9833(object):
         #1. Control register write with reset 0x2100
         control_reset = 0x2100
         control_reset = control_reset.to_bytes(2,'big')
+        
         self.spi.xfer2(control_reset)
         #2. Write to frequency and phase registers, B28 = 1 (2x16 bits write)
         self.spi.xfer2(tx_freq)
+        
         #3. Control register write, Set reset = 0, select control and phase register
         self.spi.xfer2([tx_lsb,tx_msb])
+        
 
         #example successful write sequence
         #xfer = [byte for word in (0x2100, lsb, msb, SHAPE_ID[self.shape]) for byte in word.to_bytes(2, 'big')]

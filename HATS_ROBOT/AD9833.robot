@@ -10,7 +10,7 @@ Generate_waveform
     ...    Waveform options : sine,square,triangle,sleep
     ...    Frequency range : 0-12.5 mhz
     #generate('waveform',freuqency)
-    ${Generate_waveform}    generate    sine    1000
+    ${Generate_waveform}    generate    triangle    1000
     Should Contain    ${Generate_waveform}    ${success}
 
 Sweep
