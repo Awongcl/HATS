@@ -1,42 +1,20 @@
 *** Settings ***
-Library           ../HATS/ads1015.py
+Resource          resource/ADS1015.robot
 
 *** Variables ***
 
 *** Test Cases ***
 get_all_voltage
-    [Documentation]    Reads the voltage from all the channels.
-    ...    mode options: 'single'/'continuous'
-    ...    sample rate options: 128, 250, 490, 920, 1600 (default), 2400 or 330
-    ...    Gain options:(+-) 6.144, 4.096, 2.048 (default), 1.024, 0.512 or 0.256
-    ...    Results:
-    ...    First row = voltage
-    ...    Second rwo = raw value
-    #get_all_voltage(mode = "single",sample_rate=1600,gain=2.048)
-    get_all_voltage    single    1600    4.096
+    to_get_all_voltage    single    1600    4.096
 
 get_voltage_single_Channel
-    [Documentation]    Reads voltage from a single(selected) channel
-    ...    First 3 options same as above
-    ...    Channel options: in0/gnd,in1/gnd,in2/gnd,in3/gnd,in0/in1,in0/in3,in1/in3,in2/in3
-    #get_voltage(mode = "single",gain=2.048,rate=1600,channel="in0/gnd")
     get_voltage    single    1600    4.096    in0/gnd
 
 set_digital_comparator
-    [Documentation]    Set the mode, high and low threshold of the comparator.
-    ...    Threshold values( Important !) : Must be within thhe gain values, e,g gain = +-4.096V, then threshold must be within +-4.046V
-    ...    Modes : 'window', 'traditional'
-    ...    e.g in window mode, alert/rdy pion asserts when the input is outside the bound of low and high threshold
-    #set_digital_comparator(mode='traditional',low=0,high=0)
-    Set Digital Comparator    traditional    1    1
+    to_set_digital_comparator    traditional    1    1
 
 Get_Config
-    [Documentation]    Get the current configuration of the ADC.
-    ...    This includes: Sample rate, gain , mode, comparator mode,high/low threshold, comparator polarity
-    #get_config()
-    Get Config
+    to_get_config
 
-Reset
-    [Documentation]    Resets the ADC (Registers)
-    #reset()
-    reset
+reset_ads1015
+    to_reset_ads1015

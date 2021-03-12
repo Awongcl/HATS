@@ -1,25 +1,15 @@
 *** Settings ***
-Library           ../HATS/ad9833.py
+Resource          resource/AD9833.robot
 
 *** Variables ***
 ${success}        success
 
 *** Test Cases ***
 Generate_waveform
-    [Documentation]    Generate desire waveform and frequency
-    ...    Waveform options : sine,square,triangle,sleep
-    ...    Frequency range : 0-12.5 mhz
-    #generate('waveform',freuqency)
-    ${Generate_waveform}    generate    triangle    1000
-    Should Contain    ${Generate_waveform}    ${success}
+    to_generate_waveform    sine    1000
 
 Sweep
-    [Documentation]    Sweeps from beginning to ending frequency with adjustable interval
-    ...    Freuqncy range: 0 - 12.5 Mhz
-    #sweep('waveform',begin_freq,end_freq,inc_freq)
-    sweep    sine    10    5000    10
+    to_sweep    sine    10    5000    10
 
 Reset
-    [Documentation]    Resets the waveform generator
-    #reset()
-    reset
+    to_reset

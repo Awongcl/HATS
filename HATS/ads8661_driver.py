@@ -140,6 +140,7 @@ class ADS8661(object):
     ''' Returns voltage after multiplying the range (scale) with raw value '''
     def get_voltage(self):
         scale = LSB[self.get_range()]
+        print(scale)
         data = self.get_conversion_raw()
         data = data >> 20
         #print(hex(data))

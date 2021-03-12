@@ -5,7 +5,6 @@ I2C_ADDR = 0x40
 # Initialize IC
 ina260 = INA260(I2C_ADDR)
 
-
 def get_voltage():
     print("Voltage: {} V".format(ina260.get_voltage()))
 

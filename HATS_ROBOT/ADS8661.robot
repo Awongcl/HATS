@@ -10,7 +10,7 @@ get_voltage
 
 set_range
     [Documentation]    Set the range of the PGA
-    ...    options: "+12.288","+-10.24","+-6.144","+-5.12", "+2.56","12.288","10.24","6.144","5.12" (default)
+    ...    options: "+12.288"(default),"+-10.24","+-6.144","+-5.12", "+2.56","12.288","10.24","6.144","5.12"
     #set_range()
     set_range    5.12
 
