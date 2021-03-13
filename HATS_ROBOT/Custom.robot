@@ -1,10 +1,21 @@
 *** Settings ***
-Resource          resource/adg715.robot
+Resource          resource/ADG715.robot
 Resource          resource/ADS1015.robot
+Resource          resource/INA260.robot
 
 *** Test Cases ***
-custome test
+LED sequence
+    to_set_all    16    continous
+    to_set_relay    [2]
+    Sleep    1s
+    to_get_all
+    Sleep    1s
+    to_set_relay    [2,4]
+    Sleep    1s
+    to_get_all
+    Sleep    2s
     to_set_relay    [2,4,5]
-    to_get_all_voltage    single    1600    4.096
-    Sleep    5s
+    Sleep    1s
+    to_get_all
+    Sleep    2s
     to_set_relay    []

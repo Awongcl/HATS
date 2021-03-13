@@ -43,6 +43,9 @@ class INA260:
 
     ''' Get voltage from voltage bus '''
     def get_voltage(self):
+        if(self.get_mode() == "triggered"):
+            self.set_mode("triggered")
+            print("triggered")
         with SMBus(1) as bus:
             data = bus.read_i2c_block_data(I2C_ADDR,VOLTAGE_REG,2)
             return list_to_word(data)* 0.00125
@@ -75,7 +78,7 @@ class INA260:
         data |= AVERAGE[avg] << 9
         data = word_to_bytes(data)
         with SMBus(1) as bus:
-            data = bus.write_i2c_block_data(I2C_ADDR,CONFIG_REG,data)
+            bus.write_i2c_block_data(I2C_ADDR,CONFIG_REG,data)
         
         print("Average of {} set!".format(avg))
 
@@ -86,9 +89,9 @@ class INA260:
         data = (DEFAULT_CONFIG & 0xFFF0 )| MODE[mode]
         data = word_to_bytes(data)
         with SMBus(1) as bus:
-            data = bus.write_i2c_block_data(I2C_ADDR,CONFIG_REG,data)
+            bus.write_i2c_block_data(I2C_ADDR,CONFIG_REG,data)
 
-        print("{} mode set!".format(mode))
+        
 
     ''' set all  values of the config register'''
     def set_all(self,avg =1 ,mode = "continous"):
@@ -99,14 +102,30 @@ class INA260:
         with SMBus(1) as bus:
             data = bus.write_i2c_block_data(I2C_ADDR,CONFIG_REG,data)
 
-        print("Average of {} and {} mode set!".format(avg,mode))
-
 
     ''' reads the config register '''
     def read_config(self):
         with SMBus(1) as bus:
             data = bus.read_i2c_block_data(I2C_ADDR,CONFIG_REG,2)
             return hex(list_to_word(data))
+
+    def get_mode(self):
+        hex = self.read_config()
+        hex = int(hex,16)
+        hex = hex & 0x0004
+        if(hex == 2):
+            return "continous"
+        else:
+            return "triggered"
+
+    def get_average(self):
+        hex = self.read_config()
+        hex = int(hex,16)
+        hex = (hex & 0x0700) >> 9
+        for avg, b in AVERAGE.items():  
+            if b == hex:
+                return avg
+
 
     ''' resets ic '''
     def reset(self):

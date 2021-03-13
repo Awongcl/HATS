@@ -24,6 +24,12 @@ def get_id():
 
 def set_all(avg=1,mode="continous"):
     ina260.set_all(avg,mode)
+    print("Average of {} and {} mode set!".format(avg,mode))
+
+def get_config():
+    print("Average :",ina260.get_average())  
+    print("Mode :",ina260.get_mode())  
+   
 
 def read_config():
     print(ina260.read_config())    

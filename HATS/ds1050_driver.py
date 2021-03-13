@@ -13,7 +13,7 @@ class DS1050:
 
     #set PWM duty cycle
     def set_cycle(self,step=16):
-        # 32 steps from 00000b to 11111b, each step = 3.0275%
+        # 32 steps from 00000b to 11111b, each step = 3.125%
         #0% to 96.88% duty cycle option
         step |= 0x00
         with SMBus(1) as bus:
