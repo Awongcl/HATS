@@ -1,21 +1,18 @@
 *** Settings ***
 Resource          resource/ADG715.robot
-Resource          resource/ADS1015.robot
 Resource          resource/INA260.robot
 
 *** Test Cases ***
 LED sequence
-    to_set_all    16    continous
+    ${success}    Convert To Number    5
+    to_set_all    16    triggered
     to_set_relay    [2]
     Sleep    1s
-    to_get_all
+    ${value}    to_get_voltage
+    Should Be Equal As Numbers    ${value}    ${success}    precision=0
+    to_set_relay    [4]
     Sleep    1s
-    to_set_relay    [2,4]
+    ${value}    to_get_voltage
+    Should Be Equal As Numbers    ${value}    ${success}    precision=0
     Sleep    1s
-    to_get_all
-    Sleep    2s
-    to_set_relay    [2,4,5]
-    Sleep    1s
-    to_get_all
-    Sleep    2s
     to_set_relay    []

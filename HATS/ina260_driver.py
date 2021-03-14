@@ -45,7 +45,7 @@ class INA260:
     def get_voltage(self):
         if(self.get_mode() == "triggered"):
             self.set_mode("triggered")
-            print("triggered")
+            #print("triggered")
         with SMBus(1) as bus:
             data = bus.read_i2c_block_data(I2C_ADDR,VOLTAGE_REG,2)
             return list_to_word(data)* 0.00125
@@ -100,7 +100,7 @@ class INA260:
         data |= AVERAGE[avg] << 9
         data = word_to_bytes(data)
         with SMBus(1) as bus:
-            data = bus.write_i2c_block_data(I2C_ADDR,CONFIG_REG,data)
+            bus.write_i2c_block_data(I2C_ADDR,CONFIG_REG,data)
 
 
     ''' reads the config register '''

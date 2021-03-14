@@ -26,13 +26,13 @@ class ADG715:
             b = self.numToHex(value)
             msg = i2c_msg.write(I2C_ADDR_GND, [b])
             bus.i2c_rdwr(msg)
-            print('wrote')
+            
 
     # read the status of the register
     def read(self):
         with SMBus(1) as bus:
             data = bus.read_byte(I2C_ADDR_GND)
-            print("Reg Value: {}".format(data))
+            return data
         
 
     #reset to default (all close)

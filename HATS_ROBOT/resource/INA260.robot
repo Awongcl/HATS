@@ -10,7 +10,8 @@ to_get_all
 to_get_voltage
     [Documentation]    Get voltage from voltage bus
     #get_voltage()
-    get_voltage
+    ${voltage}    get_voltage
+    [Return]    ${voltage}
 
 to_get_current
     [Documentation]    Get current from current reg
@@ -40,7 +41,8 @@ to_read_config
     [Documentation]    Read the value of the configure register.
     ...    16 bit hex value, detail please refer to datasheet
     #read_config()
-    read_config
+    ${read_config}    read_config
+    [Return]    ${read_config}
 
 to_reset
     [Documentation]    Resets device, config reg to default

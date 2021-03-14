@@ -6,7 +6,10 @@ get_all
     to_get_all
 
 get_voltage
-    to_get_voltage
+    ${success}    Convert To Number    4.9
+    ${voltage}    to_get_voltage
+    Log    ${voltage}
+    Should Be Equal As Numbers    ${voltage}    ${success}    precision=1
 
 get_current
     to_get_current
