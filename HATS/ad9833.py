@@ -59,4 +59,3 @@ def print_output():
 
 
 
-generate()

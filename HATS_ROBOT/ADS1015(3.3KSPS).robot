@@ -1,5 +1,5 @@
 *** Settings ***
-Resource          resource/ADS1015.robot
+Resource          Resource/ADS1015.robot
 
 *** Variables ***
 

@@ -1,0 +1,7 @@
+ds1050 module
+=============
+
+.. automodule:: ds1050
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -9,35 +9,53 @@ SHAPE_ID = {
     'sine': 0x2000,
     'sleep': 0x0040
 }
-
+# Chip Clock Frequency
+ClockFreq = 25000000
 
 class AD9833(object):
-
-    # Chip Clock Frequency
-    ClockFreq = 25000000
     
     def __init__(self,bus,device):
+        """Inits AD9833
+
+        :param bus: Bus
+        :type bus: 
+        :param device: SPI bus
+        :type device: 
+        """
         self.spi = spidev.SpiDev()
-        self.spi.open(bus, device);
+        self.spi.open(bus, device)
         self.spi.max_speed_hz = 1000000
 
-    ''' Sets shape, options: "sine","triangle","square","sleep" '''
     def set_shape(self, shape):
+        """Sets shape of waveform\n
+        Options : "sine","triangle","square","sleep"\n
+        sleep puts the IC into sleep mode, setting any other waveform will wake the IC.
+
+        :param shape: Shape
+        :type shape: str
+        """
         self.shape = shape if shape in SHAPE_ID else 'sine'
 
-    ''' Sets freuqncy from 0 to 12500000 Hz '''
     def set_freq(self, freq):
+        """ Sets freuqncy from 0 to 12500000 Hz
+
+        :param Frequency: Frequency range from 0 to 12500000 Hz
+        :type Frequency: int
+        """
         self.freq = freq
     
-    ''' Resets IC '''
     def reset(self):
+        """ Resets IC
+        """
         self.spi.xfer2([0x01,0x00])
 
-    ''' Sends the serial data after setting bit fields '''
     def send(self):
+        """ Sends the serial data after setting shape and frequency
+                
+        """
         # Calculate frequency word to send
         pulse = self.freq if self.shape is not 'square' else self.freq * 2
-        word = round((pulse*2**28)/self.ClockFreq)
+        word = round((pulse*2**28)/ClockFreq)
 
         #print(hex(word))
         # split frequency word into two 14-bit parts as MSB and LSB.

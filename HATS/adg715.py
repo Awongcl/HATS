@@ -15,4 +15,3 @@ def reset_relay():
     print("Reg Value: {}".format(adg715.read()))
 
 
-set_relay([2,4,5])

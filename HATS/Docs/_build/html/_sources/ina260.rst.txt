@@ -1,0 +1,7 @@
+ina260 module
+=============
+
+.. automodule:: ina260
+   :members:
+   :undoc-members:
+   :show-inheritance:

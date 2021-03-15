@@ -1,0 +1,7 @@
+ads8661 module
+==============
+
+.. automodule:: ads8661
+   :members:
+   :undoc-members:
+   :show-inheritance:

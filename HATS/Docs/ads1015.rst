@@ -1,0 +1,7 @@
+ads1015 module
+==============
+
+.. automodule:: ads1015
+   :members:
+   :undoc-members:
+   :show-inheritance:

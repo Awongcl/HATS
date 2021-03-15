@@ -9,20 +9,23 @@ adc = ADS8661(0, spi_ch)
 
 
 def get_voltage():
-    print("{} V".format(adc.get_voltage()))
-    return 0
+    voltage = adc.get_voltage()
+    print("{} V".format(voltage))
+    return voltage
 
 def get_raw_conversion():
-    print(hex(adc.get_conversion_raw()))
+    return hex(adc.get_conversion_raw())
+
 
 def set_range(range="5.12"):
     adc.set_range_sel_reg(range)     
     print("Range set to {}".format(range))
-    
+    return range
 
 def get_range():
-    print("Range: {}".format(adc.get_range()))
-
+    range = adc.get_range()
+    print("Range: {}".format(range))
+    return range
 
 # reset is not in the driver file because it is controld by the PI's GPIO, not SPI
 def reset():

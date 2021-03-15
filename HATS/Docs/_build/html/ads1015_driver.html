@@ -1,0 +1,590 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ads1015_driver module &mdash; HATS 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ads8661 module" href="ads8661.html" />
+    <link rel="prev" title="ads1015 module" href="ads1015.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> HATS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">HATS</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ad9833.html">ad9833 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ad9833_driver.html">ad9833_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adg2128_driver.html">adg2128_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adg715.html">adg715 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adg715_driver.html">adg715_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ads1015.html">ads1015 module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ads1015_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ads8661.html">ads8661 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ads8661_driver.html">ads8661_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ds1050.html">ds1050 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ds1050_driver.html">ds1050_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html">gpio module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ina260.html">ina260 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ina260_driver.html">ina260_driver module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HATS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">HATS</a> &raquo;</li>
+        
+      <li>ads1015_driver module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/ads1015_driver.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ads1015_driver">
+<span id="ads1015-driver-module"></span><h1>ads1015_driver module<a class="headerlink" href="#module-ads1015_driver" title="Permalink to this headline">¶</a></h1>
+<dl class="py data">
+<dt id="ads1015_driver.HIGH_THRESH_REG">
+<code class="sig-prename descclassname"><span class="pre">ads1015_driver.</span></code><code class="sig-name descname"><span class="pre">HIGH_THRESH_REG</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#ads1015_driver.HIGH_THRESH_REG" title="Permalink to this definition">¶</a></dt>
+<dd><p>MASKS , for reset fields to 0’s</p>
+</dd></dl>
+
+<dl class="py data">
+<dt id="ads1015_driver.COMPARATOR_POLARITY_MASK">
+<code class="sig-prename descclassname"><span class="pre">ads1015_driver.</span></code><code class="sig-name descname"><span class="pre">COMPARATOR_POLARITY_MASK</span></code><em class="property"> <span class="pre">=</span> <span class="pre">32759</span></em><a class="headerlink" href="#ads1015_driver.COMPARATOR_POLARITY_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>bit Shift</p>
+</dd></dl>
+
+<dl class="py data">
+<dt id="ads1015_driver.COMPARATOR_POLARITY_SHIFT">
+<code class="sig-prename descclassname"><span class="pre">ads1015_driver.</span></code><code class="sig-name descname"><span class="pre">COMPARATOR_POLARITY_SHIFT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#ads1015_driver.COMPARATOR_POLARITY_SHIFT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Keys</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ads1015_driver.list_to_bits">
+<code class="sig-prename descclassname"><span class="pre">ads1015_driver.</span></code><code class="sig-name descname"><span class="pre">list_to_bits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.list_to_bits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts any length list to binary bits
+e.g. [2,3] –&gt; 00110010</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>list</strong> (<em>List</em>) – List of integers</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Stream of binary bits in hex form</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>hex</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ads1015_driver.hword_to_byte_list">
+<code class="sig-prename descclassname"><span class="pre">ads1015_driver.</span></code><code class="sig-name descname"><span class="pre">hword_to_byte_list</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hword</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.hword_to_byte_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to convert 16 bits (2 bytes) to byte list
+e.g. 0x1234 – &gt; [12,34]
+:param hword: Halfword</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Byte list</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ads1015_driver.twos_comp">
+<code class="sig-prename descclassname"><span class="pre">ads1015_driver.</span></code><code class="sig-name descname"><span class="pre">twos_comp</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bits</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.twos_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>compute the 2’s complement of int value val</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>val</strong> (<em>int</em>) – Value to be compute</p></li>
+<li><p><strong>bits</strong> (<em>int</em>) – Number of bits to represent value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>2’s complement of int value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ads1015_driver.ADS1015">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ads1015_driver.</span></code><code class="sig-name descname"><span class="pre">ADS1015</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i2c_addr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alert_pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i2c_dev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.get_conversion_reg">
+<code class="sig-name descname"><span class="pre">get_conversion_reg</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.get_conversion_reg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 16 bit raw conversion value from conversion register</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns 16 bits value in int</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.get_raw_voltage">
+<code class="sig-name descname"><span class="pre">get_raw_voltage</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.get_raw_voltage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts 12 bit raw voltage from the 16 bit conversion register</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>12 bit value as int</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.get_voltage">
+<code class="sig-name descname"><span class="pre">get_voltage</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.get_voltage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get voltage from raaw data by multiplying gain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Voltage</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.start_conversion">
+<code class="sig-name descname"><span class="pre">start_conversion</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.start_conversion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts a conversion</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.conversion_ready">
+<code class="sig-name descname"><span class="pre">conversion_ready</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.conversion_ready" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check is the conversion ready</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Boolean</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.get_config_reg">
+<code class="sig-name descname"><span class="pre">get_config_reg</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.get_config_reg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 16 bit configuration value from configuration register</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns 16 bits value in int</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.set_mux">
+<code class="sig-name descname"><span class="pre">set_mux</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'in0/gnd'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.set_mux" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the internal mux to switch between channel</p>
+<p>‘in0/in1’ - Differential reading between in0 and in1 (default)</p>
+<p>‘in0/in3’ - Differential reading between in0 and in3</p>
+<p>‘in1/in3’ - Differential reading between in1 and in3</p>
+<p>‘in2/in3’ - Differential reading between in2 and in3</p>
+<p>‘in0/gnd’ - Single-ended reading between in0 and GND</p>
+<p>‘in1/gnd’ - Single-ended reading between in1 and GND</p>
+<p>‘in2/gnd’ - Single-ended reading between in2 and GND</p>
+<p>‘in3/gnd’ - Single-ended reading between in3 and GND</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>channel</strong> (<em>str</em>) – e.g ‘in0/gnd’ - Single-ended reading between in0 and GND,, defaults to “in0/gnd”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.get_mux">
+<code class="sig-name descname"><span class="pre">get_mux</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.get_mux" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current mux setting</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Mux state</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.set_gain">
+<code class="sig-name descname"><span class="pre">set_gain</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.048</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.set_gain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the gain of the PGA</p>
+<p>Options: (+-) 6.144,4.096,2.048(default),1.024,0.512,0.256</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gain</strong> (<em>float</em>) – Gain, defaults to 2.048</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.get_gain">
+<code class="sig-name descname"><span class="pre">get_gain</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.get_gain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current gain setting</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Gain value</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.set_sample_rate">
+<code class="sig-name descname"><span class="pre">set_sample_rate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1600</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.set_sample_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set sampling rate</p>
+<p>Options: 125,250,490,920,1600(default),2400,3300,3300 SPS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rate</strong> (<em>int</em>) – Sampling rate, defaults to 1600</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.get_sample_rate">
+<code class="sig-name descname"><span class="pre">get_sample_rate</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.get_sample_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get sampling rate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Current sampling rate</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.set_mode">
+<code class="sig-name descname"><span class="pre">set_mode</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'single'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.set_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set conversion mode</p>
+<p>Options : “single”/”continous”</p>
+<p>Single-shot - ADC performs one conversion of the input signal upon request, stores the conversion value to an
+internal conversion register, and then enters a power-down state.</p>
+<p>Continous - The rate of continuous conversion is equal to the programmed
+data rate. Data can be read at any time and always reflect the most recent completed conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mode</strong> (<em>str</em>) – Mode, defaults to “single”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.get_mode">
+<code class="sig-name descname"><span class="pre">get_mode</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.get_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current operation mode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Operation mode</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.set_comparator_mode">
+<code class="sig-name descname"><span class="pre">set_comparator_mode</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'traditional'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.set_comparator_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set comparator mode</p>
+<p>Options: “window”/”traditional”</p>
+<p>In traditional comparator mode, the ALERT/RDY pin asserts (active low by
+default) when conversion data exceeds the limit set in the high-threshold register (Hi_thresh). The comparator
+then deasserts only when the conversion data falls below the limit set in the low-threshold register (Lo_thresh). In
+window comparator mode, the ALERT/RDY pin asserts when the conversion data exceed the Hi_thresh register
+or fall below the Lo_thresh register value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mode</strong> (<em>str</em><em>, </em><em>optional</em>) – Mode, defaults to “traditional”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.get_comparator_mode">
+<code class="sig-name descname"><span class="pre">get_comparator_mode</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.get_comparator_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get comparator mode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Comparator mode</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.set_threshold">
+<code class="sig-name descname"><span class="pre">set_threshold</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.set_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set Low and high threshold for digital comparator</p>
+<p>Threshold values : Must be within the gain values, e.g. gain = +-4.096V,
+then threshold must be within +-4.046V</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>low</strong> (<em>int</em>) – low threashold</p></li>
+<li><p><strong>high</strong> (<em>int</em>) – high threashold</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.get_threshold">
+<code class="sig-name descname"><span class="pre">get_threshold</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.get_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Low and High threshold values</p>
+<p>e.g [1,4] l–&gt; low = 1V and high = 4V</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list containing low and high threashold</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.set_comparator_polarity">
+<code class="sig-name descname"><span class="pre">set_comparator_polarity</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polarity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'low'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.set_comparator_polarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set comparator polarity</p>
+<p>Options: “low”/”high”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>polarity</strong> (<em>str</em>) – Polarity, defaults to “low”,Polarity of the ALERT/RDY pin</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.get_comparator_polarity">
+<code class="sig-name descname"><span class="pre">get_comparator_polarity</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.get_comparator_polarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get comparator polarity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Comparator polarity</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ads1015_driver.ADS1015.reset">
+<code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ads1015_driver.ADS1015.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets ADS1015 to default values and settings</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="ads8661.html" class="btn btn-neutral float-right" title="ads8661 module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ads1015.html" class="btn btn-neutral float-left" title="ads1015 module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Govtech.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

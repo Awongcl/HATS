@@ -1,0 +1,7 @@
+ad9833 module
+=============
+
+.. automodule:: ad9833
+   :members:
+   :undoc-members:
+   :show-inheritance:

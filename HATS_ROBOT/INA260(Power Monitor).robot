@@ -1,5 +1,5 @@
 *** Settings ***
-Resource          resource/INA260.robot
+Resource          Resource/INA260.robot
 
 *** Test Cases ***
 get_all

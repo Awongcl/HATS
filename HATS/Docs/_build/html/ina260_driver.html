@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ina260_driver module &mdash; HATS 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="ina260 module" href="ina260.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> HATS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">HATS</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ad9833.html">ad9833 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ad9833_driver.html">ad9833_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adg2128_driver.html">adg2128_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adg715.html">adg715 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adg715_driver.html">adg715_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ads1015.html">ads1015 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ads1015_driver.html">ads1015_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ads8661.html">ads8661 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ads8661_driver.html">ads8661_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ds1050.html">ds1050 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ds1050_driver.html">ds1050_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html">gpio module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ina260.html">ina260 module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ina260_driver module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HATS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">HATS</a> &raquo;</li>
+        
+      <li>ina260_driver module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/ina260_driver.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ina260_driver">
+<span id="ina260-driver-module"></span><h1>ina260_driver module<a class="headerlink" href="#module-ina260_driver" title="Permalink to this headline">¶</a></h1>
+<dl class="py data">
+<dt id="ina260_driver.I2C_ADDR">
+<code class="sig-prename descclassname"><span class="pre">ina260_driver.</span></code><code class="sig-name descname"><span class="pre">I2C_ADDR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">64</span></em><a class="headerlink" href="#ina260_driver.I2C_ADDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>registers address</p>
+</dd></dl>
+
+<dl class="py data">
+<dt id="ina260_driver.ID_REG">
+<code class="sig-prename descclassname"><span class="pre">ina260_driver.</span></code><code class="sig-name descname"><span class="pre">ID_REG</span></code><em class="property"> <span class="pre">=</span> <span class="pre">254</span></em><a class="headerlink" href="#ina260_driver.ID_REG" title="Permalink to this definition">¶</a></dt>
+<dd><p>configuration register fields</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ina260_driver.list_to_word">
+<code class="sig-prename descclassname"><span class="pre">ina260_driver.</span></code><code class="sig-name descname"><span class="pre">list_to_word</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.list_to_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert list of 2 bytes to 16 bits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>list</strong> (<em>int</em>) – List</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Halfword</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ina260_driver.word_to_bytes">
+<code class="sig-prename descclassname"><span class="pre">ina260_driver.</span></code><code class="sig-name descname"><span class="pre">word_to_bytes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.word_to_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert 16 bits into list of 2 bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>word</strong> (<em>hexadecimal</em>) – Halfword</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of 2 bytes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ina260_driver.INA260">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ina260_driver.</span></code><code class="sig-name descname"><span class="pre">INA260</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i2c_addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i2c_dev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="ina260_driver.INA260.get_voltage">
+<code class="sig-name descname"><span class="pre">get_voltage</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260.get_voltage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get voltage from voltage bus</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Voltage</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ina260_driver.INA260.get_current">
+<code class="sig-name descname"><span class="pre">get_current</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260.get_current" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current from current register</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Current</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ina260_driver.INA260.get_power">
+<code class="sig-name descname"><span class="pre">get_power</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260.get_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get power based on the volatge and current registers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Power (Voltage*Current)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ina260_driver.INA260.get_id">
+<code class="sig-name descname"><span class="pre">get_id</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260.get_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the id of the ic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>ID of the IC</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ina260_driver.INA260.set_average">
+<code class="sig-name descname"><span class="pre">set_average</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">avg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260.set_average" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the number of averages from the read data</p>
+<p>options : 1(default),4,16,64,128,256,512,1024</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>avg</strong> (<em>int</em>) – Average, defaults to 1</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ina260_driver.INA260.set_mode">
+<code class="sig-name descname"><span class="pre">set_mode</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'continous'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260.set_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set mode</p>
+<p>Options: “triggered”/”continous”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mode</strong> (<em>str</em>) – Mode, defaults to “continous”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ina260_driver.INA260.set_all">
+<code class="sig-name descname"><span class="pre">set_all</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">avg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'continous'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260.set_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set all  values of the config register</p>
+<p>Average optios: options : 1(default),4,16,64,128,256,512,1024</p>
+<p>Mode options: Options: “triggered”/”continous”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>avg</strong> (<em>int</em>) – Average, defaults to 1</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Mode, defaults to “continous”</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ina260_driver.INA260.read_config">
+<code class="sig-name descname"><span class="pre">read_config</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260.read_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the config register</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>16 bit hex</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>hexadecimal</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ina260_driver.INA260.get_mode">
+<code class="sig-name descname"><span class="pre">get_mode</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260.get_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get mode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Mode</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ina260_driver.INA260.get_average">
+<code class="sig-name descname"><span class="pre">get_average</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260.get_average" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get average</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Average</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ina260_driver.INA260.reset">
+<code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ina260_driver.INA260.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets IC</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="ina260.html" class="btn btn-neutral float-left" title="ina260 module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Govtech.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

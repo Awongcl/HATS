@@ -17,8 +17,6 @@ MODE_MASK = 0x7EFF
 COMPARATOR_MODE_MASK = 0x7FEF
 COMPARATOR_POLARITY_MASK = 0x7FF7
 
-
-
 ''' bit Shift '''
 MUX_SHIFT = 12
 OS_SHIFT = 15
@@ -54,8 +52,15 @@ RATE = {128: 0b000,
         2400: 0b101,
         3300: 0b110}
 
-''' Function to convert any length list to bits '''
 def list_to_bits(list):
+    """Converts any length list to binary bits
+    e.g. [2,3] --> 00110010
+
+    :param list: List of integers
+    :type list: List
+    :return: Stream of binary bits in hex form
+    :rtype: hex
+    """
     shift = (len(list)-1)*8
     data = 0x0000
     for b in list:
@@ -64,8 +69,16 @@ def list_to_bits(list):
         shift -= 8
     return data
 
-''' Function to convert 16bits to byte list '''
+
 def hword_to_byte_list(hword):
+    """Function to convert 16 bits (2 bytes) to byte list
+    e.g. 0x1234 -- > [12,34]
+    :param hword: Halfword
+        
+    :type hword: hex
+    :return: Byte list
+    :rtype: list
+    """
     list = []
     msb = (hword & 0xFF00) >> 8
     lsb = hword & 0x00FF
@@ -74,19 +87,41 @@ def hword_to_byte_list(hword):
     return list
 
 def twos_comp(val, bits):
-    """compute the 2's complement of int value val"""
+    """compute the 2's complement of int value val
+
+    :param val: Value to be compute
+    :type val: int
+    :param bits: Number of bits to represent value
+    :type bits: int
+    :return: 2's complement of int value
+    :rtype: int
+    """
     if (val & (1 << (bits - 1))) != 0: # if sign bit is set e.g., 8bit: 128-255
         val = val - (1 << bits)        # compute negative value
     return val
 
 class ADS1015:
     def __init__(self, i2c_addr, alert_pin=None, i2c_dev=None):
+        """Inits ADS1015
+
+        :param i2c_addr: I2C address
+        :type i2c_addr: 
+        :param alert_pin: defaults to None
+        :type alert_pin: 
+        :param i2c_dev: defaults to None
+        :type i2c_dev: 
+        """
         self.i2c_addr = i2c_addr
         self.i2c_dev = i2c_dev
         self.alert_pin = alert_pin
 
-    ''' Get 12 bit raw conversion value '''
+    
     def get_conversion_reg(self):
+        """Get 16 bit raw conversion value from conversion register
+
+        :return: Returns 16 bits value in int
+        :rtype: int
+        """
         self.start_conversion()
         if not self.conversion_ready():
             time.sleep(0.001)
@@ -94,66 +129,96 @@ class ADS1015:
             data = list_to_bits(bus.read_i2c_block_data(self.i2c_addr,CONVERSION_REG,2))
             return data
 
-    ''' Get raw voltage '''
+
     def get_raw_voltage(self):
+        """ Extracts 12 bit raw voltage from the 16 bit conversion register
+
+        :return: 12 bit value as int
+        :rtype: int
+        """
         return self.get_conversion_reg() >> CONVERSION_SHIFT
 
-    ''' Get voltage from raw data '''
+
     def get_voltage(self):
+        """Get voltage from raaw data by multiplying gain
+
+        :return: Voltage
+        :rtype: float
+        """
         data = self.get_conversion_reg() >> CONVERSION_SHIFT
         lsb = (self.get_gain()*2)/(2**12)
+
         return data*lsb
 
-    ''' start a conversion ''' 
+    
     def start_conversion(self):
+        """Starts a conversion
+        """
         data = 0x8000 | self.get_config_reg()
         data = hword_to_byte_list(data)
         with SMBus(1) as bus:
             bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
 
-    ''' Check if conversion is done ''' 
     def conversion_ready(self):
-        #print(hex(self.get_config_reg()))
+        """Check is the conversion ready
+
+        :return: Boolean
+        :rtype: Boolean
+        """
         data = self.get_config_reg() >> OS_SHIFT
         if data == 1:
             return True
         return False
 
-    ''' Get 16 bit configuration register value '''
     def get_config_reg(self):
+        """Get 16 bit configuration value from configuration register
+
+        :return: Returns 16 bits value in int
+        :rtype: int
+        """
         with SMBus(1) as bus:
             data = list_to_bits(bus.read_i2c_block_data(self.i2c_addr,CONFIG_REG,2))
             return data
 
-    '''
-        'in0/in1' - Differential reading between in0 and in1 (default)
-        'in0/in3' - Differential reading between in0 and in3
-        'in1/in3' - Differential reading between in1 and in3
-        'in2/in3' - Differential reading between in2 and in3
-        'in0/gnd' - Single-ended reading between in0 and GND
-        'in1/gnd' - Single-ended reading between in1 and GND
-        'in2/gnd' - Single-ended reading between in2 and GND
-        'in3/gnd' - Single-ended reading between in3 and GND
-    '''
     def set_mux(self,channel = "in0/gnd"):
+        """Sets the internal mux to switch between channel\n
+        'in0/in1' - Differential reading between in0 and in1 (default)\n
+        'in0/in3' - Differential reading between in0 and in3\n
+        'in1/in3' - Differential reading between in1 and in3\n
+        'in2/in3' - Differential reading between in2 and in3\n
+        'in0/gnd' - Single-ended reading between in0 and GND\n
+        'in1/gnd' - Single-ended reading between in1 and GND\n
+        'in2/gnd' - Single-ended reading between in2 and GND\n
+        'in3/gnd' - Single-ended reading between in3 and GND
+
+        :param channel: e.g 'in0/gnd' - Single-ended reading between in0 and GND,, defaults to "in0/gnd"
+        :type channel: str
+        """
         reg = self.get_config_reg() & MUX_MASK
         data = reg | (MUX[channel] << MUX_SHIFT)
         data = hword_to_byte_list(data)
         with SMBus(1) as bus:
             bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
     
-
-    ''' Get current mux setting ''' 
+    
     def get_mux(self):
+        """Get the current mux setting
+
+        :return: Mux state
+        :rtype: str
+        """
         data = 0b111 & (self.get_config_reg() >> MUX_SHIFT)
         for key, value in MUX.items(): 
             if value == data:
                 return key
 
-
-    ''' Set the gain of the PGA 
-    Options: +- 6.144,4.096,2.048(default),1.024,0.512,0.256'''
     def set_gain(self,gain=2.048):
+        """Set the gain of the PGA \n
+        Options: (+-) 6.144,4.096,2.048(default),1.024,0.512,0.256
+
+        :param gain: Gain, defaults to 2.048
+        :type gain: float
+        """
         reg = self.get_config_reg() & GAIN_MASK
         data = reg | (GAIN[gain] << GAIN_SHIFT)
         data = hword_to_byte_list(data)
@@ -161,30 +226,51 @@ class ADS1015:
             bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
     
     def get_gain(self):
+        """Get current gain setting
+
+        :return: Gain value
+        :rtype: float
+        """
         data = 0b111 & (self.get_config_reg() >> GAIN_SHIFT)
         for key, value in GAIN.items(): 
             if value == data:
                 return key
 
-    ''' Set sampling rate 
-        Options: 125,250,490,920,1600(default),2400,3300,3300 SPS''' 
     def set_sample_rate(self,rate=1600):
+        """Set sampling rate \n
+        Options: 125,250,490,920,1600(default),2400,3300,3300 SPS
+
+        :param rate: Sampling rate, defaults to 1600
+        :type rate: int
+        """
         reg = self.get_config_reg() & RATE_MASK
         data = reg | (RATE[rate] << RATE_SHIFT)
         data = hword_to_byte_list(data)
         with SMBus(1) as bus:
             bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
 
-    ''' Get sample rate '''
     def get_sample_rate(self):
+        """Get sampling rate
+
+        :return: Current sampling rate
+        :rtype: int
+        """
         data = 0b111 & (self.get_config_reg() >> RATE_SHIFT)
         for key, value in RATE.items(): 
             if value == data:
                 return key
 
-    ''' Set mode 
-        Options : "single"/"continous" '''
     def set_mode(self,mode = "single"):
+        """Set conversion mode\n
+        Options : "single"/"continous"\n
+        Single-shot - ADC performs one conversion of the input signal upon request, stores the conversion value to an
+        internal conversion register, and then enters a power-down state.\n
+        Continous - The rate of continuous conversion is equal to the programmed
+        data rate. Data can be read at any time and always reflect the most recent completed conversion.
+
+        :param mode: Mode, defaults to "single"
+        :type mode: str
+        """
         if mode == "single":
             m = 1
         else:
@@ -195,16 +281,29 @@ class ADS1015:
         with SMBus(1) as bus:
             bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
 
-    ''' Get device mode '''
     def get_mode(self):
+        """Get current operation mode
+
+        :return: Operation mode
+        :rtype: str
+        """
         data = 0b1 & (self.get_config_reg() >> MODE_SHIFT)
         if data == 1:
             return "single"
         return "continous"
 
-    ''' Set comparator mode
-        Options : "window"/"traditional"(default) '''
     def set_comparator_mode(self,mode="traditional"):
+        """Set comparator mode\n
+        Options: "window"/"traditional"\n
+        In traditional comparator mode, the ALERT/RDY pin asserts (active low by
+        default) when conversion data exceeds the limit set in the high-threshold register (Hi_thresh). The comparator
+        then deasserts only when the conversion data falls below the limit set in the low-threshold register (Lo_thresh). In
+        window comparator mode, the ALERT/RDY pin asserts when the conversion data exceed the Hi_thresh register
+        or fall below the Lo_thresh register value.
+
+        :param mode: Mode, defaults to "traditional"
+        :type mode: str, optional
+        """
         if mode == "window":
             m = 1
         else:
@@ -215,15 +314,28 @@ class ADS1015:
         with SMBus(1) as bus:
             bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
     
-    ''' Get comparatr mode '''
     def get_comparator_mode(self):
+        """Get comparator mode
+
+        :return: Comparator mode
+        :rtype: str
+        """
         data = 0b1 & (self.get_config_reg() >> COMPARATOR_MODE_SHIFT)
         if data == 1:
             return "window"
         return "traditional"
 
-    ''' Set Low and high threshold for digital comparator '''
     def set_threshold(self,low,high):
+        """Set Low and high threshold for digital comparator\n
+        Threshold values : Must be within the gain values, e.g. gain = +-4.096V,
+        then threshold must be within +-4.046V
+
+        :param low: low threashold
+        :type low: int
+        :param high: high threashold
+        :type high: int
+       
+        """
         mask = 0x0000
         gain = self.get_gain()
         lsb = (gain*2)/(2**12)
@@ -233,8 +345,13 @@ class ADS1015:
             bus.write_i2c_block_data(self.i2c_addr,LOW_THRESH_REG,l)
             bus.write_i2c_block_data(self.i2c_addr,HIGH_THRESH_REG,h)
 
-    ''' Get Low and High threshold values '''
     def get_threshold(self):
+        """Get Low and High threshold values\n
+        e.g [1,4] l--> low = 1V and high = 4V
+
+        :return: A list containing low and high threashold
+        :rtype: list
+        """
         gain = self.get_gain()
         lsb = (gain*2)/(2**12)
         with SMBus(1) as bus:
@@ -243,9 +360,13 @@ class ADS1015:
         return [twos_comp(low,12)*lsb,twos_comp(high,12)*lsb]
 
 
-    ''' Set comparator polarity 
-        Options: "low"/"high" '''
     def set_comparator_polarity(self,polarity="low"):
+        """Set comparator polarity\n
+        Options: "low"/"high"
+
+        :param polarity: Polarity, defaults to "low",Polarity of the ALERT/RDY pin
+        :type polarity: str
+        """
         if polarity == "low":
             b = 0
         else:
@@ -257,15 +378,20 @@ class ADS1015:
             bus.write_i2c_block_data(self.i2c_addr,CONFIG_REG,data)
     
 
-    ''' Get comparatr polarity '''
     def get_comparator_polarity(self):
+        """Get comparator polarity
+
+        :return: Comparator polarity
+        :rtype: str
+        """
         data = 0b1 & (self.get_config_reg() >> COMPARATOR_POLARITY_SHIFT)
         if data == 1:
             return "Active High"
         return "Active Low"
 
-    ''' Resets IC to default '''
     def reset(self):
+        """Resets ADS1015 to default values and settings
+        """
         with SMBus(1) as bus:
             data = 0x06 # reset value
             # Write a single byte

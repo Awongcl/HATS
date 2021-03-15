@@ -1,5 +1,5 @@
 *** Settings ***
-Resource          resource/AD9833.robot
+Resource          Resource/AD9833.robot
 
 *** Variables ***
 ${success}        success

@@ -1,0 +1,7 @@
+adg715 module
+=============
+
+.. automodule:: adg715
+   :members:
+   :undoc-members:
+   :show-inheritance:

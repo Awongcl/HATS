@@ -1,6 +1,6 @@
 *** Settings ***
-Resource          resource/ADG715.robot
-Resource          resource/INA260.robot
+Resource          Resource/ADG715.robot
+Resource          Resource/INA260.robot
 
 *** Test Cases ***
 LED sequence

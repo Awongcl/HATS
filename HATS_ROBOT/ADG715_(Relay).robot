@@ -1,5 +1,5 @@
 *** Settings ***
-Resource          resource/ADG715.robot
+Resource          Resource/ADG715.robot
 
 *** Test cases ***
 set_relay
