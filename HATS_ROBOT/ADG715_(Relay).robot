@@ -3,7 +3,7 @@ Resource          Resource/ADG715.robot
 
 *** Test cases ***
 set_relay
-    to_set_relay    [2,4,5]
+    to_set_relay    [8]
 
 reset_relay
     to_reset_relay

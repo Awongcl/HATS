@@ -42,7 +42,10 @@ Y ={0:0x0,
 
 ''' LDSW ''' 
 LATCH = 0x0 # Latch the register until LDSW = 1 
-NO_LATCH = 0x1 # Change after the word is written
+NO_LATCH = 0x1
+''' Read back '''
+RB = {"x0":0x34,
+    "x1":0x3C}
 
 
 class ADG2128:
@@ -63,11 +66,12 @@ class ADG2128:
         with SMBus(1) as bus :
             msg = i2c_msg.write(self.i2c_addr,[msb,lsb])
             bus.i2c_rdwr(msg)
+          
 
     ''' Set multiple switch state at once
         Control options: "on"/"off"
         list input : pairs of switches [x,y]
-        e.g [1,2,5,6,7,8] = X1&X6 , X5&y6, X7&Y8
+        e.g [1,2,5,6,7,8] = X1&Y2 , X5&y6, X7&Y8
         Register will latched during the sending sequence
         Register will be update at once after the last command
     '''
@@ -84,13 +88,19 @@ class ADG2128:
                 #msg = i2c_msg.write(self.i2c_addr,[msb,lsb])
                 #bus.i2c_rdwr(msg)
 
-                
-        
+    def read_back(self,line):
+        with SMBus(1) as bus:
+            msg = i2c_msg.write(self.i2c_addr, [RB[line],0x00])
+            bus.i2c_rdwr(msg)
+            data = bus.read_i2c_block_data(self.i2c_addr,0,2)
+        return data           
+
     ''' Resets the IC '''
     def reset(self):
         return 0
 
 
-ic = ADG2128()
-#ic.set_switch("on",11,7)
-ic.set_multiple_switch("on",[1,2,3,4,5,6])
+ic = ADG2128(I2C_ARRR_000)
+ic.set_switch("off",0,4)
+data = ic.read_back("x0")
+print(data)

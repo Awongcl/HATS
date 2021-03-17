@@ -124,7 +124,7 @@ class ADS1015:
         """
         self.start_conversion()
         if not self.conversion_ready():
-            time.sleep(0.001)
+            time.sleep(0.05)
         with SMBus(1) as bus:
             data = list_to_bits(bus.read_i2c_block_data(self.i2c_addr,CONVERSION_REG,2))
             return data

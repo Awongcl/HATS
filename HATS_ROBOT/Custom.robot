@@ -16,3 +16,13 @@ LED sequence
     Should Be Equal As Numbers    ${value}    ${success}    precision=0
     Sleep    1s
     to_set_relay    []
+
+Relay
+    to_set_relay    [1]
+    to_set_relay    [2]
+    to_set_relay    [3]
+    to_set_relay    [4]
+    to_set_relay    [5]
+    to_set_relay    [6]
+    to_set_relay    [7]
+    to_set_relay    [8]
