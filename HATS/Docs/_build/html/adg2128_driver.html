@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="adg715 module" href="adg715.html" />
-    <link rel="prev" title="ad9833_driver module" href="ad9833_driver.html" /> 
+    <link rel="prev" title="adg2128 module" href="adg2128.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,6 +89,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">HATS</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="ad9833.html">ad9833 module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ad9833_driver.html">ad9833_driver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adg2128.html">adg2128 module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">adg2128_driver module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="adg715.html">adg715 module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="adg715_driver.html">adg715_driver module</a></li>
@@ -181,11 +182,9 @@
 data 0 = off, 1 = on
 x = dont care
 If LDSW = 1, the switch position changes after the new word is read.
-If LDSW = 0, the input data is latched, but the switch position is not changed.</p>
-<blockquote>
-<div><p>Setting LDSW on the last word allows all of the switches in that sequence to be simultaneously
+If LDSW = 0, the input data is latched, but the switch position is not changed.
+Setting LDSW on the last word allows all of the switches in that sequence to be simultaneously
 updated.</p>
-</div></blockquote>
 </dd></dl>
 
 <dl class="py data">
@@ -206,24 +205,75 @@ updated.</p>
 <dd><p>LDSW</p>
 </dd></dl>
 
+<dl class="py data">
+<dt id="adg2128_driver.NO_LATCH">
+<code class="sig-prename descclassname"><span class="pre">adg2128_driver.</span></code><code class="sig-name descname"><span class="pre">NO_LATCH</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#adg2128_driver.NO_LATCH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read back</p>
+</dd></dl>
+
 <dl class="py class">
 <dt id="adg2128_driver.ADG2128">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">adg2128_driver.</span></code><code class="sig-name descname"><span class="pre">ADG2128</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i2c_addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">112</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i2c_dev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#adg2128_driver.ADG2128" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">adg2128_driver.</span></code><code class="sig-name descname"><span class="pre">ADG2128</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i2c_addr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i2c_dev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#adg2128_driver.ADG2128" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt id="adg2128_driver.ADG2128.set_switch">
 <code class="sig-name descname"><span class="pre">set_switch</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#adg2128_driver.ADG2128.set_switch" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set switch state</p>
+<p>Control options: “on”/”off”</p>
+<p>x options : 0-11</p>
+<p>y options : 0-7</p>
+<p>This method changes the switch state after sending one command</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control</strong> (<em>str</em>) – “on” or “off”</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – X</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Y</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="adg2128_driver.ADG2128.set_multiple_switch">
 <code class="sig-name descname"><span class="pre">set_multiple_switch</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#adg2128_driver.ADG2128.set_multiple_switch" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set multiple switch state at once</p>
+<p>Control options: “on”/”off”</p>
+<p>list input : pairs of switches [x,y]</p>
+<p>e.g [1,2,5,6,7,8] = X1&amp;Y2 , X5&amp;y6, X7&amp;Y8</p>
+<p>Register will latched during the sending sequence</p>
+<p>Register will be update at once after the last command</p>
+<p>Meaning all switches will be update simultaneously</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control</strong> (<em>str</em>) – “on” or “off”</p></li>
+<li><p><strong>list</strong> (<em>list</em>) – Pairs of switches, defaults to []</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt id="adg2128_driver.ADG2128.reset">
-<code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#adg2128_driver.ADG2128.reset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="adg2128_driver.ADG2128.read_back">
+<code class="sig-name descname"><span class="pre">read_back</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#adg2128_driver.ADG2128.read_back" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read back to is read the current state of a line e.g X1</p>
+<p>When X0 is entered, this function returns a byte to indicate which Y is connected.</p>
+<p>e.g Param = X0, returns 0x03 = 0000 0011</p>
+<p>X0 is connected with Y0 and Y1
+Line options: X0-7</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – Line</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>1 Byte of data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>byte</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -236,7 +286,7 @@ updated.</p>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="adg715.html" class="btn btn-neutral float-right" title="adg715 module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="ad9833_driver.html" class="btn btn-neutral float-left" title="ad9833_driver module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="adg2128.html" class="btn btn-neutral float-left" title="adg2128 module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

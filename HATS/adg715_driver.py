@@ -1,3 +1,4 @@
+import gpio
 from smbus2 import SMBus, i2c_msg
 
 I2C_ADDR_GND = 0x48
@@ -61,8 +62,9 @@ class ADG715:
     def reset(self):
         """ Resets to default (all switch low)
         """
-        with SMBus(1) as bus:
+        """with SMBus(1) as bus:
             # Write a byte to address 80, offset 0
             msg = i2c_msg.write(I2C_ADDR_GND, [0x00])
             bus.i2c_rdwr(msg)
-
+        """
+        gpio.relay_rst()

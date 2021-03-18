@@ -175,9 +175,61 @@
   <div class="section" id="module-gpio">
 <span id="gpio-module"></span><h1>gpio module<a class="headerlink" href="#module-gpio" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
+<dt id="gpio.dcdc_en">
+<code class="sig-prename descclassname"><span class="pre">gpio.</span></code><code class="sig-name descname"><span class="pre">dcdc_en</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gpio.dcdc_en" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable or disable on baord DCDC converters</p>
+<p>Input a list of voltages, options: 5, 3.3 and 1.8
+e.g to enabl3 5V and 3.3V = [5,3.3], bool = Teue</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arr</strong> (<em>list</em>) – List of voltage values</p></li>
+<li><p><strong>bool</strong> (<em>bool</em>) – On= True, Off = False, defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="gpio.dac_en">
+<code class="sig-prename descclassname"><span class="pre">gpio.</span></code><code class="sig-name descname"><span class="pre">dac_en</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gpio.dac_en" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="gpio.ldo_en">
+<code class="sig-prename descclassname"><span class="pre">gpio.</span></code><code class="sig-name descname"><span class="pre">ldo_en</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gpio.ldo_en" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables or disables on board LDO</p>
+<p>Power for ADS1015 and ADS8661</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bool</strong> (<em>bool</em>) – On = True, off = False defaults to False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="gpio.adc_rst">
 <code class="sig-prename descclassname"><span class="pre">gpio.</span></code><code class="sig-name descname"><span class="pre">adc_rst</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gpio.adc_rst" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Resets ADS8661</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="gpio.relay_rst">
+<code class="sig-prename descclassname"><span class="pre">gpio.</span></code><code class="sig-name descname"><span class="pre">relay_rst</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gpio.relay_rst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets relay</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="gpio.matrix_1_rst">
+<code class="sig-prename descclassname"><span class="pre">gpio.</span></code><code class="sig-name descname"><span class="pre">matrix_1_rst</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gpio.matrix_1_rst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets Crosspoint matrix 1</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="gpio.matrix_2_rst">
+<code class="sig-prename descclassname"><span class="pre">gpio.</span></code><code class="sig-name descname"><span class="pre">matrix_2_rst</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gpio.matrix_2_rst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets Crosspoint matrix 2</p>
+</dd></dl>
 
 </div>
 

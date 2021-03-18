@@ -1,0 +1,7 @@
+adg2128 module
+==============
+
+.. automodule:: adg2128
+   :members:
+   :undoc-members:
+   :show-inheritance:

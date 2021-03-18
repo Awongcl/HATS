@@ -6,6 +6,7 @@ HATS
 
    ad9833
    ad9833_driver
+   adg2128
    adg2128_driver
    adg715
    adg715_driver
