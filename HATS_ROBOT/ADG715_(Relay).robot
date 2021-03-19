@@ -13,8 +13,11 @@ reset_relay
 
 running
     to set relay    [2]
-    to reset
+    sleep    1s
+    to reset relay
+    sleep    1s
     to set relay    [4]
-    to reset
+    sleep    1s
+    to reset relay
     to set relay    [5]
-    to reset
+    to reset relay
