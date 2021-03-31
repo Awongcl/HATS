@@ -65,6 +65,12 @@ class AD9833(object):
         freq_lsb |= 0x4000
         freq_msb |= 0x4000
         
+
+        f1 = (freq_lsb & 0xFF00) >> 8
+        f2 = (freq_lsb & 0x00FF)
+        f3 = (freq_msb & 0xFF00) >> 8
+        f4 = (freq_msb & 0x00FF)
+        print(f1,f2,f3,f4)
         freq_lsb = freq_lsb.to_bytes(2,'big')
         freq_msb = freq_msb.to_bytes(2,'big')
         tx_freq = freq_lsb+freq_msb
@@ -96,13 +102,16 @@ class AD9833(object):
         #1. Control register write with reset 0x2100
         control_reset = 0x2100
         control_reset = control_reset.to_bytes(2,'big')
-        
-        self.spi.xfer2(control_reset)
+      
+        self.spi.xfer2([0x21,0x00,f1,f2,f3,f4,tx_lsb,tx_msb])
         #2. Write to frequency and phase registers, B28 = 1 (2x16 bits write)
-        self.spi.xfer2(tx_freq)
+        #self.spi.xfer2(control_reset)
+      
         
         #3. Control register write, Set reset = 0, select control and phase register
-        self.spi.xfer2([tx_lsb,tx_msb])
+        #self.spi.xfer2(tx_freq)
+   
+        #self.spi.xfer2([tx_lsb,tx_msb])
         
 
         #example successful write sequence

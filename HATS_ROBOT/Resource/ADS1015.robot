@@ -22,7 +22,7 @@ to_get_voltage_single_Channel
     ...    Channel options: in0/gnd,in1/gnd,in2/gnd,in3/gnd,in0/in1,in0/in3,in1/in3,in2/in3
     #get_voltage(mode = "single",gain=2.048,rate=1600,channel="in0/gnd")
     #example syntax: get_voltage    single    1600    4.096    in0/gnd
-    get_voltage    ${mode}    ${sample_rate}    ${gain}    ${channel}
+    ads1015.get_voltage    ${mode}    ${sample_rate}    ${gain}    ${channel}
 
 to_set_digital_comparator
     [Arguments]    ${mode}=traditional    ${low}=1    ${high}=1

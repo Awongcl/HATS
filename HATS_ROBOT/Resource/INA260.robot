@@ -10,7 +10,7 @@ to_get_all
 to_get_voltage
     [Documentation]    Get voltage from voltage bus
     #get_voltage()
-    ${voltage}    get_voltage
+    ${voltage}    ina260.get_voltage
     [Return]    ${voltage}
 
 to_get_current

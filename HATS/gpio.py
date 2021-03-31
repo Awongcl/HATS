@@ -14,6 +14,7 @@ MATRIX_2_RST = 26
 PGA_G0 = 16
 PGA_G1 = 20
 PGA_G2 = 21
+CE0 = 8
 
 
 
@@ -32,6 +33,8 @@ GPIO.setup(DC3V3_EN, GPIO.OUT)
 GPIO.setup(PGA_G0, GPIO.OUT)
 GPIO.setup(PGA_G1, GPIO.OUT)
 GPIO.setup(PGA_G2, GPIO.OUT)
+
+GPIO.setup(CE0, GPIO.OUT)
 
 
 vdict = {5:DC5V_EN,3.3:DC3V3_EN,1.8:DC1V8_EN}
@@ -123,7 +126,8 @@ def set_pga_gain(gain=1):
         else:
             GPIO.output(PGA_DICT[i], GPIO.HIGH)
 
-
+def testing():
+    GPIO.output(CE0,GPIO.HIGH)
 
 #ldo_en(False)
 #dcdc_en([5,1.8],False)

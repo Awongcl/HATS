@@ -3,7 +3,7 @@ Resource          Resource/ADG715.robot
 
 *** Test cases ***
 set_relay
-    to_set_relay    [1,2]
+    to_set_relay    [8]
 
 read_relay
     to_read_relay
@@ -11,7 +11,7 @@ read_relay
 reset_relay
     to_reset_relay
 
-running
+test_relay
     to set relay    [2]
     sleep    1s
     to reset relay

@@ -6,7 +6,7 @@ set_switch
     to_set_switch    1    on    0    0
 
 set_multiple_switch
-    to_set_multiple_switch    1    on    [0,1,0,2,0,7]
+    to_set_multiple_switch    1    on    [0,1,1,2]
 
 read_switch
     to_read_switch    1    x0
