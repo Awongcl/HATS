@@ -6,7 +6,7 @@ to_get_voltage
     [Documentation]    Gets voltage reading from analog input
     ...    Differential between AIN_P - AIN_GND pins
     #get_votlage()
-    ${voltage}    get_voltage
+    ${voltage}    ads8661.get_voltage
     [Return]    ${voltage}
 
 to_set_range

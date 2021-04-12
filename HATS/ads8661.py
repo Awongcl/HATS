@@ -10,7 +10,7 @@ adc = ADS8661(0, spi_ch)
 
 def get_voltage():
     voltage = adc.get_voltage()
-    print("{} V".format(voltage))
+    #print("{} V".format(voltage))
     return voltage
 
 def get_raw_conversion():

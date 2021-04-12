@@ -21,7 +21,7 @@ get_config
     to_get_config
 
 set_all
-    to_set_all    16    triggered
+    to_set_all    1    continous
 
 read_config
     to_read_config

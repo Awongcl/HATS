@@ -87,6 +87,22 @@ def read_switch(device,line):
 
     return data
 
+def read_all_switch(device):
+    """Read back all lines\n
+    Device options: 1,2
+
+    :param device: Device
+    :type device: int
+    :param line: Line
+    :type line: str
+    :return: 2 Bytes, first byte = dummy ,second byte = data
+    :rtype: List 
+    """
+    LINES = ["x0","x1","x2","x3","x4","x5","x6","x7","x8","x9","x10","x11"]
+    for l in LINES:
+        read_switch(device,l)
+
+    
 def reset_switch(device=3):
     """Resets switch\n
     Device options : 1,2,3(3 = 1 and 2)

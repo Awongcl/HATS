@@ -129,7 +129,7 @@ class ADS8661(object):
         data = to_32bit_list(READ_HW,DATAOUT_CTL_REG,PAD8,PAD8)
         self.spi.writebytes(data)
         b = self.spi.readbytes(2)
-        print(type(b))
+        #print(type(b))
         return b
 
     def set_rst_pwctr_reg(self,msb=0x69,lsb=0x00):
@@ -174,7 +174,7 @@ class ADS8661(object):
         :rtype: list
         """
         data = to_32bit_list(READ_HW,RANGE_SEL_REG,PAD8,PAD8)
-        print(list_to_32bits(data))
+        #print(list_to_32bits(data))
         self.spi.writebytes(data)
         b = self.spi.readbytes(2)
         return b
@@ -211,7 +211,7 @@ class ADS8661(object):
         :rtype: float
         """
         scale = LSB[self.get_range()]
-        print(scale)
+        #print(scale)
         data = self.get_conversion_raw()
         data = data >> 20
         voltage = scale*data

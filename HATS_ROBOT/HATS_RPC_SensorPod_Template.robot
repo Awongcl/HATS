@@ -9,7 +9,7 @@ Set Serial Port
     ###====================================== Start of Initialisation ==================================================================
     #RPC_setport(serial_port)
     #Syntax: ${variable}    RPC_setport    'serial_port'
-    ${setport}    RPC_setport    /dev/ttyS0
+    ${setport}    RPC_setport    /dev/ttyUSB0
     Log    ${setport}
 
 Initialise Serial Communication
@@ -46,9 +46,9 @@ I2C Scan
     #Syntax: ${variable}    RPC_0arg    I2C_scan    run
     ${i2cscan}    RPC_0arg    I2C_scan    run
     Log    ${i2cscan}
-    Should Contain    ${i2cscan}    30    75
+    Should Contain    ${i2cscan}    75    30
 
-I2C TMP75
+I2puttC TMP75
     [Documentation]    Initialise and take a reading from TMP75. TMP75 config reg 0x01 set-up and read of temp sensor 0x00
     ${success} =    Set Variable    Success
     #I2C_write1(slave addr,reg addr,data byte1)
@@ -243,13 +243,26 @@ SPI LIS3DSH Read
     Log    ${spiread}
     ###====================================== End of SPI ===================================================================
 
+UART Pin Setup
+    [Documentation]    Test Case calls RPC function to set UART TX & RX pins for UART Interface
+    ...
+    ...    This function needs to be called before other UART functions
+    ...
+    ...    Returns "UART pin setup done!" if pins declared successfully, mbed OS crash if failed/pins not declared in mbed OS
+    ###====================================== Start of UART ===============================================================================
+    ${success}    Set Variable    setup done
+    #UART_setup(UART_TX,UART_RX)
+    #Syntax: ${variable}    RPC_2arg    UART_setup    run    'UART_TX'    'UART_RX'
+    ${uartpin}    RPC_2arg    UART_setup    run    PD_5    PD_6
+    Log    ${uartpin}
+    Should Contain    ${uartpin}    ${success}
+
 UART2 Pin Setup
     [Documentation]    Test Case calls RPC function to set UART TX & RX pins for UART2 Interface
-    ###====================================== Start of UART ===================================================================
     #UART_setup(UART_TX,UART_RX)
     #Syntax: ${variable}    RPC_2arg    UART_setup    run    'UART_TX'    'UART_RX'
     ${success}    Set Variable    setup done
-    ${uartpin}    RPC_2arg    UART_setup    run    PD_5    PA_3
+    ${uartpin}    RPC_2arg    UART_setup    run    PD_9    PD_8
     Log    ${uartpin}
     Should Contain    ${uartpin}    ${success}
 
@@ -547,16 +560,16 @@ LED1 On/Off
     #PE_9(value 'if any')
     #Syntax: ${variable}    RPC_0arg    'obj_name'    read
     ${pinread1}    RPC_0arg    PE_9    read
-    Should Contain    ${pinread1}    ${Low}
+    Should Contain    ${pinread1}    ${High}
     Log    ${pinread1}
     #PE_9(value 'if any')
     #Syntax: ${variable}    RPC_1arg    'obj_name'    write    'value'
-    ${pinwrite}    RPC_1arg    PE_9    write    1
+    ${pinwrite}    RPC_1arg    PE_9    write    0
     Log    ${pinwrite}
     #PE_9(value 'if any')
     #Syntax: ${variable}    RPC_0arg    'obj_name'    read
     ${pinread2}    RPC_0arg    PE_9    read
-    Should Contain    ${pinread2}    ${High}
+    Should Contain    ${pinread2}    ${Low}
     Log    ${pinread2}
 
 LED2 Set-up
@@ -575,16 +588,16 @@ LED2 On/Off
     #PE_10(value 'if any')
     #Syntax: ${variable}    RPC_0arg    'obj_name'    read
     ${pinread1}    RPC_0arg    PE_10    read
-    Should Contain    ${pinread1}    ${Low}
+    Should Contain    ${pinread1}    ${High}
     Log    ${pinread1}
     #PE_10(value 'if any')
     #Syntax: ${variable}    RPC_1arg    'obj_name'    write    'value'
-    ${pinwrite}    RPC_1arg    PE_10    write    1
+    ${pinwrite}    RPC_1arg    PE_10    write    0
     Log    ${pinwrite}
     #PE_10(value 'if any')
     #Syntax: ${variable}    RPC_0arg    'obj_name'    read
     ${pinread2}    RPC_0arg    PE_10    read
-    Should Contain    ${pinread2}    ${High}
+    Should Contain    ${pinread2}    ${Low}
     Log    ${pinread2}
 
 LED3 Set-up
@@ -603,16 +616,16 @@ LED3 On/Off
     #PE_11(value 'if any')
     #Syntax: ${variable}    RPC_0arg    'obj_name'    read
     ${pinread1}    RPC_0arg    PE_11    read
-    Should Contain    ${pinread1}    ${Low}
+    Should Contain    ${pinread1}    ${High}
     Log    ${pinread1}
     #PE_11(value 'if any')
     #Syntax: ${variable}    RPC_1arg    'obj_name'    write    'value'
-    ${pinwrite}    RPC_1arg    PE_11    write    1
+    ${pinwrite}    RPC_1arg    PE_11    write    0
     Log    ${pinwrite}
     #PE_11(value 'if any')
     #Syntax: ${variable}    RPC_0arg    'obj_name'    read
     ${pinread2}    RPC_0arg    PE_11    read
-    Should Contain    ${pinread2}    ${High}
+    Should Contain    ${pinread2}    ${Low}
     Log    ${pinread2}
     ###====================================== End of DigitalOut (Board LED) ===================================================================
 

@@ -165,7 +165,7 @@ class INA260:
         hex = self.read_config()
         hex = int(hex,16)
         hex = hex & 0x0004
-        if(hex == 2):
+        if(hex == 4):
             return "continous"
         else:
             return "triggered"

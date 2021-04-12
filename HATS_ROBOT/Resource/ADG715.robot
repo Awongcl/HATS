@@ -12,13 +12,13 @@ to_set_relay
     ...    Switch will be low if not indicated.
     #set_relay(arr[ ])
     #example syntax: set_relay    [1,8]
-    set_relay    ${list}
+    adg715.set_relay    ${list}
 
 to_read_relay
     [Documentation]    To read the current state of the relays
     ...    Relays 1-8 is = 0x0000 0000
     ...    If relay 1 and 2 is ON, returns 0x0000 0011 = 3 in int
-    read_relay
+    adg715.read_relay
 
 to_reset_relay
-    reset_relay
+    adg715.reset_relay

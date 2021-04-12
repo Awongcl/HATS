@@ -34,6 +34,13 @@ to_read_switch
     #example syntax:    read_switch    1    x0
     read_switch    ${device}    ${line}
 
+to_read_all_switch
+    [Arguments]    ${device}
+    [Documentation]    Read all lines from X0 to X11
+    ...    Device options: 1,2
+    #example syntax:    read_alll_switch    1
+    read_all_switch    ${device}
+
 to_reset_switch
     [Arguments]    ${device}
     [Documentation]    Resets switch

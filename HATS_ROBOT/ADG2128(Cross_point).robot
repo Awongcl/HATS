@@ -11,5 +11,8 @@ set_multiple_switch
 read_switch
     to_read_switch    1    x0
 
+read_all_switch
+    to_read_all_switch    1
+
 reset_switch
     to_reset_switch    1

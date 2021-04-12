@@ -45,7 +45,17 @@ LATCH = 0x0 # Latch the register until LDSW = 1
 NO_LATCH = 0x1
 ''' Read back '''
 RB = {"x0":0x34,
-    "x1":0x3C}
+      "x1":0x3C,
+      "x2":0x74,
+      "x3":0x7C,
+      "x4":0x35,
+      "x5":0x3D,
+      "x6":0x75,
+      "x7":0x7D,
+      "x8":0x36,
+      "x9":0x3E,
+      "x10":0x76,
+      "x11":0x7E}
 
 
 class ADG2128:

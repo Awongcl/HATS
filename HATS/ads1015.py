@@ -43,7 +43,9 @@ def get_voltage(mode = "single",rate=1600,gain=2.048,channel="in0/gnd"):
     ads1015.set_gain(gain)
     ads1015.set_mux(channel)
     ads1015.set_mode(mode)
-    print("{} V".format(ads1015.get_voltage()))
+    voltage = ads1015.get_voltage()
+    print("{} V".format(voltage))
+    return voltage
 
 def get_config():
     #print("Channel : {}".format(ads1015.get_mux()))
@@ -65,8 +67,6 @@ def reset():
     ads1015.reset()
     print("IC reset!")
     
-
-
 
 
 

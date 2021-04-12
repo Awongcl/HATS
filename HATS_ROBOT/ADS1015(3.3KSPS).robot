@@ -7,8 +7,8 @@ Resource          Resource/ADS1015.robot
 get_all_voltage
     to_get_all_voltage    continous    1600    6.144
 
-get_voltage_single_Channel
-    get_voltage    continous    1600    4.096    in0/gnd
+get_voltage_single_channel
+    to_get_voltage_single_channel    continous    1600    4.096    in0/gnd
 
 set_digital_comparator
     to_set_digital_comparator    traditional    1    1

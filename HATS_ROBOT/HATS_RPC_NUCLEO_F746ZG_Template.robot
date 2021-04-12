@@ -1,5 +1,5 @@
 *** Settings ***
-Library           ../Automated MANUCA Testing/HATS_RPC_Functions.py
+Library           ../HATS/HATS_RPC_Functions.py
 
 *** Variables ***
 
