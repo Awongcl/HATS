@@ -560,16 +560,16 @@ LED1 On/Off
     #PE_9(value 'if any')
     #Syntax: ${variable}    RPC_0arg    'obj_name'    read
     ${pinread1}    RPC_0arg    PE_9    read
-    Should Contain    ${pinread1}    ${High}
+    Should Contain    ${pinread1}    ${Low}
     Log    ${pinread1}
     #PE_9(value 'if any')
     #Syntax: ${variable}    RPC_1arg    'obj_name'    write    'value'
-    ${pinwrite}    RPC_1arg    PE_9    write    0
+    ${pinwrite}    RPC_1arg    PE_9    write    1
     Log    ${pinwrite}
     #PE_9(value 'if any')
     #Syntax: ${variable}    RPC_0arg    'obj_name'    read
     ${pinread2}    RPC_0arg    PE_9    read
-    Should Contain    ${pinread2}    ${Low}
+    Should Contain    ${pinread2}    ${High}
     Log    ${pinread2}
 
 LED2 Set-up
