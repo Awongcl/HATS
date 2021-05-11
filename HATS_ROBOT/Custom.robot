@@ -1,6 +1,5 @@
 *** Settings ***
 Resource          Resource/ADG715.robot
-Resource          Resource/ADS1015.robot
 Resource          Resource/ADG2128.robot
 Resource          Resource/INA260.robot
 Resource          Resource/ADS8661.robot
@@ -35,13 +34,13 @@ Demo
     to_read_all_switch    1
     Sleep    1
     ${value}    ads8661.to_get_voltage
-    Should Be Equal As Numbers    ${value}    ${3.2}    precision=1
+    Should Be Equal As Numbers    ${value}    ${3.2}    precision=2
     to_set_switch    1    off    0    0
     to_set_switch    1    on    0    1
     to_read_all_switch    1
     Sleep    1s
     ${value}    ads8661. to_get_voltage
-    Should Be Equal As Numbers    ${value}    ${3.4}    precision=1
+    Should Be Equal As Numbers    ${value}    ${3.4}    precision=0
     to_reset_switch    1
     to_get_current
     to_get_power
